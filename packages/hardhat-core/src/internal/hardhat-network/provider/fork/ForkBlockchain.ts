@@ -15,6 +15,7 @@ import {
   toRpcLogOutput,
   toRpcReceiptOutput,
 } from "../output";
+import { ReadOnlyValidEIP2930Transaction } from "../transactions/ReadOnlyValidEIP2930Transaction";
 import { ReadOnlyValidTransaction } from "../transactions/ReadOnlyValidTransaction";
 import { HardhatBlockchainInterface } from "../types/HardhatBlockchainInterface";
 
@@ -268,10 +269,18 @@ export class ForkBlockchain implements HardhatBlockchainInterface {
     });
 
     for (const transaction of rpcBlock.transactions) {
-      const tx = new ReadOnlyValidTransaction(
-        new Address(transaction.from),
-        rpcToTxData(transaction)
-      );
+      let tx;
+      if (transaction.accessList !== undefined) {
+        tx = new ReadOnlyValidEIP2930Transaction(
+          new Address(transaction.from),
+          rpcToTxData(transaction)
+        );
+      } else {
+        tx = new ReadOnlyValidTransaction(
+          new Address(transaction.from),
+          rpcToTxData(transaction)
+        );
+      }
 
       block.transactions.push(tx);
     }
