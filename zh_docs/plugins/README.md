@@ -1,0 +1,4 @@
+---
+layout: Plugins
+editLink: false
+---

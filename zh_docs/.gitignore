@@ -1,0 +1,7 @@
+/node_modules
+/api
+/.vuepress/dist
+.DS_Store
+/errors/README.md
+wget-readmes.sh
+/tmp.md
