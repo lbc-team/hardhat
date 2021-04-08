@@ -1,10 +1,10 @@
-# Setting up a project
+# 项目设置
 
-Hardhat projects are `npm` projects with the `hardhat` package installed and a `hardhat.config.js` file.
+Hardhat项目是安装了 `hardhat `包和 `hardhat.config.js `文件的`npm`项目。
 
-If you run `npx hardhat` in a folder without those files you will be shown two options to facilitate project creation:
+如果你在一个没有这些文件的文件夹中运行`npx hardhat`，你将会看到两个选项以方便创建项目。
 
-```
+```bash
 $ npx hardhat
 888    888                      888 888               888
 888    888                      888 888               888
@@ -23,7 +23,7 @@ Welcome to Hardhat v2.0.0
   Quit
 ```
 
-If you select _Create an empty hardhat.config.js_, Hardhat will create a `hardhat.config.js` with the following content:
+如果选择_创建一个空的hardhat.config.js_，Hardhat将创建一个包含以下内容的`hardhat.config.js`:
 
 ```js
 /**
@@ -34,17 +34,18 @@ module.exports = {
 };
 ```
 
-Then, you need to install Hardhat with:
+然后，你需要安装Hardhat:
 
 ```
 npm install --save-dev hardhat
 ```
 
-And this is enough to run Hardhat using a default project structure. 
+而这足以使用默认的项目结构来运行Hardhat。
 
-### Sample Hardhat project
+### 样本Hardhat项目
 
-If you select _Create a sample project_ a simple project creation wizard will ask you some questions and create a project with the following structure:
+如果你选择_创建一个示例项目_一个简单的项目创建向导会问你一些问题，然后创建一个结构如下的项目:
+
 ```
 contracts/
 scripts/
@@ -52,41 +53,41 @@ test/
 hardhat.config.js
 ```
 
-These are the default paths for a Hardhat project. 
+这些是Hardhat项目的默认路径。
 
-- `contracts/` is where the source files for your contracts should be.
-- `test/` is where your tests should go.
-- `scripts/` is where simple automation scripts go.
+- `contracts/`是合约的源文件所在的地方。
+- `test/`是你的测试文件所在的地方。
+- `scripts/`是简单的自动化脚本的所在。
 
-If you need to change these paths, take a look at the [paths configuration section](../config/README.md#path-configuration).
+如果你需要改变这些路径，请查看[路径配置部分](../config/README.md#path-configuration)。
 
-### Testing and Ethereum networks
+### 测试和以太坊网络
 
-When it comes to testing your contracts, Hardhat comes with some built-in defaults:
+当需要测试合约时，Hardhat带有一些内置的默认值：
 
-- The built-in [Hardhat Network](../hardhat-network/README.md) as the development network to test on
-- [Mocha](https://mochajs.org/) as the test runner
+- 将采用内置的[Hardhat网络](../hardhat-network/README.md)作为开发网络进行测试。
+- [Mocha](https://mochajs.org/)作为测试运行器。
 
-If you need to use an external network, like an Ethereum testnet, mainnet or some other specific node software, you can set it up using the `networks` configuration entries in the exported object in `hardhat.config.js`, which is how Hardhat projects manage settings. 
+如果你需要使用外部网络，比如以太坊 testnet、mainnet或者其他一些特定的节点软件，你可以使用`hardhat.config.js`中导出的对象中的`networks`配置项进行设置，这是Hardhat项目管理设置的方式。
 
-You can use of the `--network` CLI parameter to quickly change the network.
+然后可以使用CLI 参数 `--network` 来改变网络。
 
-Take a look at the [networks configuration section](../config/README.md#networks-configuration) to learn more about setting up different networks.
+请看[网络配置部分](../config/README.md#networks-configuration)来了解更多关于设置不同网络的信息。
 
-### Plugins and dependencies
+### 插件和依赖
 
-You may have seen this notice when creating the sample project:
+在创建示例项目时，你可能已经看到了这个信息：
 
 ```
 You need to install these dependencies to run the sample project:
   npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
 ```
 
-This stems from the fact that **most of Hardhat's functionality comes from plugins**, so check out the [plugins section](../plugins/README.md) for the official list and see if there are any other ones that look interesting.
+这源于Hardhat的大部分功能来自于插件，所以请查看官方列表的[插件部分](../plugins/README.md)，看看是否有其他看起来有趣的插件。
 
-The sample project uses the `@nomiclabs/hardhat-waffle` plugin, which depends on the `@nomiclabs/hardhat-ethers` plugin. These integrate the Ethers.js and Waffle tools into your project. 
+示例项目使用了`@nomiclabs/hardhat-waffle`插件，它依赖于`@nomiclabs/hardhat-ethers`插件。它们将Ethers.js和Waffle工具集成到项目中。
 
-To use a plugin, the first step is always to install it using `npm` or `yarn`, and then requiring it in your config file:
+要使用一个插件，第一步总是使用`npm`或`yarn`安装它，然后在配置文件中引入它：
 
 ```js
 require("@nomiclabs/hardhat-waffle");
@@ -94,7 +95,6 @@ require("@nomiclabs/hardhat-waffle");
 module.exports = {};
 ```
 
-Plugins are **essential** to Hardhat projects, so make sure to check out all the available ones and also build your own ones!
+插件对于Hardhat项目来说是很重要的，所以一定要查看有哪些可用的插件，也可以建立自己的插件。
 
-For any help or feedback you may have, you can find us in the [Hardhat Support Discord server](https://hardhat.org/discord).
-
+如果你有任何帮助或反馈，你可以在[Hardhat Support Discord服务器](https://hardhat.org/discord)找到我们。

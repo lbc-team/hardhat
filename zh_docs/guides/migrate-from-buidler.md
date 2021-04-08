@@ -1,65 +1,59 @@
-# Migrating from Buidler
+# 从Buidler迁移
 
-Hardhat is the new and evolved version of Buidler.
+Hardhat是Buidler的全新升级版。
 
-This guide will teach you how to migrate your project from Buidler into Hardhat.
+本指南将教你如何将项目从Buidler迁移到Hardhat。
 
-## Installing the Hardhat packages
+## 安装Hardhat软件包
 
-The first thing you need to do to migrate your project, is installing the new npm packages.
+迁移项目需要做的第一件事是安装新的npm包。
 
-The package `@nomiclabs/buidler` is now `hardhat`. The plugins, which used to have package names like `@nomiclabs/buidler-<name>`,
-are now `@nomiclabs/hardhat-<name>`.
+`@nomiclabs/buidler`包现在修改为`hardhat`，以前的包名是`@nomiclabs/buidler-<name>`，现在名字是`@nomiclabs/hardhat-<name>`。
 
-For example, if you were using `@nomiclabs/buidler` and `@nomiclabs/buidler-ethers`, you need to run:
+例如，如果你使用`@nomiclabs/buidler`和`@nomiclabs/buidler-ethers`，你需要运行：
 
 ```
 npm install --save-dev hardhat @nomiclabs/hardhat-ethers
 ```
 
-If you were using a global installation of Buidler, you also need to install Hardhat locally.
-Global installations of Hardhat are not supported.
+如果你使用的是Buidler的全局安装，你还需要在本地目录安装Hardhat。
+当前不支持Hardhat的全局安装。
 
-## Adapting your config
+## 调整config
 
-You can use your Buidler config in Hardhat mostly unchanged. All you need to do is follow these steps.
+你可以在Hardhat中使用Buidler配置，配置内容基本上没有变化。所需要做的就是按照以下步骤进行：
 
-### Renaming your config file
+### 重命名配置文件
 
-First, you need to rename your config file from `buidler.config.js` to `hardhat.config.js`. Or,
-if you are using TypeScript, from `buidler.config.ts` to `hardhat.config.ts`.
+首先，需要把配置文件从`buidler.config.js`重命名为`hardhat.config.js`。或者如果你使用的是TypeScript，把`buidler.config.ts`改为`hardhat.config.ts`。
 
-### Changing how your plugins are loaded
+### 改变插件的加载方式
 
-Then, you have to change how your plugins are loaded. Instead of using the `usePlugin` function, you just
-have to require/import their npm package. For example, if you had
+然后，必须改变插件的加载方式。不使用 `usePlugin `函数，只需用必须 require/import 导入 npm包。例如，之前是：
 
 ```js
 usePlugin("@nomiclabs/buidler-ethers");
 ```
 
-you need to replace it with
+现在需要替换成：
 
 ```js
 require("@nomiclabs/hardhat-ethers");
 ```
 
-Or, if you are using TypeScript, with
+或者，如果你使用的是TypeScript，则替换为：
 
 ```ts
 import "@nomiclabs/hardhat-ethers";
 ```
 
-If you were importing the `usePlugin` function explicitly, you also need to remove that import, as the
-function doesn't exist anymore.
+如果之前明确导入了`usePlugin`函数，也需要删除该导入，因为功能不存在了。
 
-### Configuring Hardhat Network
+### 配置Hardhat网络
 
-Buidler EVM is now Hardhat Network, so if you are customizing it using the `buidlerevm` network config field,
-you need to rename it to `hardhat`. You can learn more about how to customize it, including enabling the Mainnet Forking
-functionality, [here](../config/README.md#hardhat-network).
+Buidler EVM现在修改为Hardhat网络，所以如果之前使用`buidlerevm`网络配置字段进行定制网络，需要把它改名为`hardhat`。你可以在[这里](./config/README.md#hardhat-network)了解更多关于如何定制网络，包括启用主网Fork功能。
 
-For example, if you had something like this in your config:
+例如，如果之前你的配置里有：
 
 ```js
 networks: {
@@ -69,7 +63,7 @@ networks: {
 }
 ```
 
-you need to replace it with:
+你需要替换成：
 
 ```js
 networks: {
@@ -79,12 +73,11 @@ networks: {
 }
 ```
 
-### Updating your Solidity config
+### 更新Solidity配置
 
-Hardhat has native support for multiple versions of Solidity. This requires a few changes in how you customize your
-`solc` setup.
+Hardhat对支持多个版本的Solidity，之前使用`solc`配置修改为用`solidity`配置。
 
-If you had something like this in your config:
+如果之前你的配置里有：
 
 ```js
 solc: {
@@ -95,7 +88,7 @@ solc: {
 }
 ```
 
-You should change it to this:
+应该把它改成这样。
 
 ```js
 solidity: {
@@ -108,94 +101,88 @@ solidity: {
 }
 ```
 
-This is a very simple config, but Hardhat supports arbitrarily complex compilation setups,
-down to the individual file level. Take a look at [this guide](./compile-contracts.md) to learn more about it.
+这是一个非常简单的配置，但Hardhat支持任意复杂的编译设置，可以精确到给单个文件设置编译器版本。查看[这里](./compile-contracts.md)以了解更多信息。
 
-## TypeScript support changes
+## TypeScript支持变化
 
-Hardhat enables its TypeScript support when your config is written in TypeScript and ends in `.ts`. If you were using
-TypeScript, but a JavaScript config, please take a look at [this guide](./typescript.md).
+当你的配置是用TypeScript写的，并且以`.ts`结尾时，Hardhat就会启用TypeScript支持。如果你使用的是TypeScript，而用一个JavaScript配置，请看[Typescript部分](./typescript.md)。
 
-You don't need a `tsconfig.json` file with Hardhat. We recommend you delete it.
+你不再需要Hardhat的`tsconfig.json`文件，建议你删除它。
 
-If you prefer to keep it, you should base it on the template presented [here](./typescript.md#customizing-typescript-with-a-tsconfig-json-file). Just make
-sure you removed all the `type-extension.d.ts` files, and keep your config file in your `files` field.
+如果你喜欢保留它，你应该以[这里](./typescript.md#customizing-typescript-with-a-tsconfig-json-file)的模板为基础。只要确保你删除了所有的`type-extension.d.ts`文件，并在`files`字段保留你的配置文件。
 
-Finally, if your config has the `BuidlerConfig` type, you should change it to `HardhatUserConfig`.
+最后，如果配置里有`BuidlerConfig`类型，你应该把它改为`HardhatUserConfig`。
 
-## Updating your `console.sol` imports
+## 更新`console.sol`
 
-If you are using `console.log` in your contracts, you need to change the imports of `@nomiclabs/buidler/console.sol`
-to `hardhat/console.sol`.
+如果你在合约中使用`console.log`，你需要更改`@nomiclabs/buidler/console.sol`为`hardhat/console.sol`。
 
-If you had this:
+如果你有这个：
 
-```solidity
+```javascript
 import "@nomiclabs/buidler/console.sol";
 ```
 
-you should change it to:
+你应该改成：
 
-```solidity
+```javascript
 import "hardhat/console.sol";
 ```
 
-## Importing artifacts and ambiguous names
+## 导入同名问题
 
-Hardhat supports multiple contracts with the same name.
+Hardhat支持多个同名合约。
 
-If you have contracts which share their name, you can't import their artifacts using just the name.
+如果你有同名名称的合约，你就不能只用名称来导入它们的artifact。
 
-For example, if you have a contract named `Ownable`, and one of your dependencies has a contract with the same name, you won't be able to do
-`artifacts.require("Ownable")` nor `ethers.getContractFactory("Ownable")`. You need to use the contract's Fully
-Qualified Name instead (e.g. `contracts/Ownable.sol:Ownable`).
+例如，如果你有一个名为 `Ownable `的合约，而依赖关系也有一个同名的合约，你将无法执行`artifacts.require(Ownable)`和`ethers.getContractFactory(Ownable)`。你需要使用合约的完整的限定名称(如`contracts/Ownable.sol:Ownable)`。
 
-If you try to import a contract with a repeated name, Hardhat will fail and show an error message that includes the different
-options to fix it. All you need to do is copy & paste them.
+如果你尝试导入一个名称重复的合约，Hardhat将失败，并显示一个错误信息，其中包括不同选项来修复它。你所需要做的就是复制和粘贴它们。
 
-For example, you may need to replace this
+例如，你可能需要更换
 
 ```js
 const Ownable = await ethers.getContractFactory("Ownable");
 ```
 
-with this
+为
 
 ```js
 const Ownable = await ethers.getContractFactory("contracts/Ownable.sol:Ownable");
 ```
 
-## Mocha and VSCode setup changes
+## Mocha和VSCode 配置的变化
 
-If you are running your tests directly with Mocha, or through a VSCode Mocha plugin, please take a look at [this
-updated guide](./vscode-tests.md).
+如果你是直接用Mocha或通过VSCode Mocha插件来运行测试，请看一下[这个更新指南](./vscode-tests.md)。
 
-## Community plugins
+## 插件更新
 
-All of the official Buidler plugins have already been migrated to Hardhat.
+所有的Buidler官方插件都已经迁移到Hardhat上。
 
-Some community-built plugins, haven't been migrated yet. If you are using one of those, you have to temporarily disable them.
+一些社区自建的插件，还没有被迁移。如果你正在使用这些插件，你必须暂时禁用它们。
 
-You can find which plugins have been updated in [the Plugins section](https://hardhat.org/plugins).
+你可以在[插件部分](https://hardhat.org/plugins)找到已经更新的插件。
 
 ### buidler-deploy
 
-This plugin has already been ported, it's now called [`hardhat-deploy`](https://github.com/wighawag/hardhat-deploy).
+这个插件已经被移植了，现在叫[`hardhat-deploy`](https://github.com/wighawag/hardhat-deploy)。
 
-Join the `#hardhat-deploy` channel on [Discord](https://hardhat.org/discord) if you need help migrating.
+如果你需要帮助，请加入[Discord](https://hardhat.org/discord)上的`#hardhat-deploy`频道。
 
 ### buidler-typechain
 
-The TypeChain plugin has been migrated, it's now called [`hardhat-typechain`](https://github.com/rhlsthrm/hardhat-typechain/).
+TypeChain插件已经迁移，现在叫[`hardhat-typechain`](https://github.com/rhlsthrm/hardhat-typechain/)。
 
-Join the `#hardhat-typechain` channel on [Discord](https://hardhat.org/discord) if you need help migrating.
+如果你需要帮助，请加入[Discord](https://hardhat.org/discord)的 `#hardhat-typechain `频道。
 
 ### buidler-gas-reporter
 
-This plugin has been migrated, it's now called [`hardhat-gas-reporter`](https://github.com/cgewecke/hardhat-gas-reporter/).
+这个插件已经迁移，现在叫[`hardhat-gas-reporter`](https://github.com/cgewecke/hardhat-gas-reporter/)。
 
-Join the `#hardhat-gas-reporter` channel on [Discord](https://hardhat.org/discord) if you need help migrating.
+如果你需要帮助，请加入[Discord](https://hardhat.org/discord)上的`#hardhat-gas-reporter`频道。
 
 ### solidity-coverage
 
-This plugin has been ported to Hardhat. Join our [Discord Server](https://hardhat.org/discord) to receive our announcement when it's released.
+这个插件已经被移植到Hardhat上。加入我们的 [Discord Server](https://hardhat.org/discord)，以便在发布时收到我们的公告。
+
+
