@@ -2,28 +2,29 @@
 prev: false
 ---
 ![Teacher Hardhat](/hardhat-tutorial.svg)
-# Hardhat's tutorial for beginners
+# Hardhat 新手入门
 
-Welcome to our beginners guide to Ethereum contracts and dApp development. This tutorial is aimed at hackathon participants who are getting setup to quickly build something from scratch.
+欢迎来到**Hardhat**的初学者指南，看看如何基于**Hardhat**进行以太坊合约和dApp开发。
 
-To orchestrate this process we're going to use **Hardhat**, a development environment that facilitates building on Ethereum. It helps developers manage and automate the recurring tasks that are inherent to the process of building smart contracts and dApps, as well as easily introducing more functionality around this workflow. This means compiling and testing at the very core.
+**Hardhat**是一个方便在以太坊上进行构建的任务运行器。使用它可以帮助开发人员管理和自动化构建智能合约和dApp的过程中固有的重复任务，以及轻松地围绕此工作流程引入更多功能。
 
-**Hardhat** also comes built-in with **Hardhat Network**, a local Ethereum network designed for development. It allows you to deploy your contracts, run your tests and debug your code.
+**Hardhat**还内置了**Hardhat 网络**，**Hardhat 网络**是为开发而设计的本地以太坊网络。 用来部署合约，运行测试和**调试代码**。
 
-In this tutorial we'll guide you through:
-- Setting up your Node.js environment for Ethereum development
-- Creating and configuring a **Hardhat** project
-- The basics of a Solidity smart contract that implements a token
-- Writing automated tests for your contract using [Ethers.js](https://docs.ethers.io/) and [Waffle](https://getwaffle.io/)
-- Debugging Solidity with `console.log()` using **Hardhat Network**
-- Deploying your contract to **Hardhat Network** and Ethereum testnets
+在本教程中，我们将指导你完成以下操作：
 
- To follow this tutorial you should be able to:
+- 为以太坊开发设置Node.js环境
+- 创建和配置 Hardhat 项目
+- 实现Solidity智能合约代币
+- 使用 [Ethers.js](https://docs.ethers.io/ethers.js/html/) 和 [Waffle](https://getwaffle.io/)为合约编写自动化测试
+- 使用**Hardhat EVM**的 `console.log()`调试Solidity
+- 将合约部署到**Hardhat EVM**和以太坊测试网
 
-  - Write code in [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics)
-  - Operate a [terminal](https://en.wikipedia.org/wiki/Terminal_emulator)
-  - Use [git](https://git-scm.com/doc)
-  - Understand the basics of how [smart contracts](https://ethereum.org/learn/#smart-contracts) work
-  - Set up a [Metamask](https://metamask.io/) wallet 
+为了完成本教程，你需要具备：
 
-If you can't do any of the above, follow the links and take some time to learn the basics.
+- 编写 [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics)
+- 打开 [terminal](https://en.wikipedia.org/wiki/Terminal_emulator)
+- 使用 [git](https://git-scm.com/doc)
+- 了解 [smart contracts](https://ethereum.org/learn/#smart-contracts) 基础知识
+- 设置 [Metamask](https://metamask.io/)钱包
+
+如果你不具备上述知识，请访问链接并花一些时间来学习基础知识。

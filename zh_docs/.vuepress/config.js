@@ -10,7 +10,7 @@ plugins.forEach((plugin) => {
 
 module.exports = {
   title:
-    "Hardhat | Ethereum development environment for professionals by Nomic Labs",
+    "Hardhat | 为专业人士开发的以太坊开发环境 by Nomic Labs",
   description:
     "Hardhat is an Ethereum development environment. Compile your contracts and run them on a development network. Get Solidity stack traces, console.log and more.",
   themeConfig: {
@@ -18,9 +18,9 @@ module.exports = {
     nav: [
       { text: "Home", link: "/" },
       // { text: "Hardhat Network", link: "/hardhat-network/" },
-      { text: "Plugins", link: "/plugins/" },
-      { text: "Documentation", link: "/getting-started/" },
-      { text: "Tutorial", link: "/tutorial/" },
+      { text: "插件", link: "/plugins/" },
+      { text: "文档", link: "/getting-started/" },
+      { text: "入门教程", link: "/tutorial/" },
     ],
     lastUpdated: true,
     repo: "nomiclabs/hardhat",
@@ -33,62 +33,62 @@ module.exports = {
     sidebar: {
       "/tutorial/": [
         {
-          title: "Tutorial",
+          title: "入门教程",
           collapsable: false,
           depth: 1,
           children: [
-            ["", "1. Overview", 1],
+            ["", "1. Hardhat概述", 1],
             [
               "setting-up-the-environment.md",
-              "2. Setting up the environment",
+              "2. 环境搭建",
               0,
             ],
             [
               "creating-a-new-hardhat-project.md",
-              "3. Creating a new Hardhat project",
+              "3. 创建新的 Hardhat 项目",
               0,
             ],
             [
               "writing-and-compiling-contracts.md",
-              "4. Writing and compiling contracts",
+              "4. 编写和编译合约",
               0,
             ],
-            ["testing-contracts.md", "5. Testing contracts", 0],
+            ["testing-contracts.md", "5. 测试合约", 0],
             [
               "debugging-with-hardhat-network.md",
-              "6. Debugging with Hardhat Network",
+              "6. 用 Hardhat Network 调试",
               0,
             ],
             [
               "deploying-to-a-live-network.md",
-              "7. Deploying to a live network",
+              "7. 部署到真实网络",
               0,
             ],
             [
               "hackathon-boilerplate-project.md",
-              "8. Hackathon Boilerplate Project",
+              "8. Hardhat 前端模板",
               0,
             ],
-            ["final-thoughts.md", "9. Final thoughts", 0],
+            ["final-thoughts.md", "9. 最后想法", 0],
           ],
         },
       ],
       "/": [
-        ["/getting-started/", "Getting Started", 1],
-        ["/config/", "Configuration", 0],
-        ["/hardhat-network/", "Hardhat Network", 0],
+        ["/getting-started/", "开始", 1],
+        ["/config/", "配置项", 0],
+        ["/hardhat-network/", "Hardhat 网络", 0],
         {
           title: "Guides",
           url: "/guides/",
           collapsable: false,
           depth: 1,
           children: [
-            ["/guides/migrate-from-buidler.md", "Migrating from Buidler", 0],
-            ["/guides/project-setup.md", "Setting up a project", 0],
-            ["/guides/compile-contracts.md", "Compiling your contracts", 0],
-            ["/guides/waffle-testing.md", "Testing with ethers.js & Waffle", 0],
-            ["/guides/truffle-testing.md", "Testing with Web3.js & Truffle", 0],
-            ["/guides/truffle-migration.md", "Migrating from Truffle", 0],
+            ["/guides/migrate-from-buidler.md", "从 Buidler 迁移", 0],
+            ["/guides/project-setup.md", "启动项目", 0],
+            ["/guides/compile-contracts.md", "编译合约", 0],
+            ["/guides/waffle-testing.md", "使用ethers.js & Waffle测试", 0],
+            ["/guides/truffle-testing.md", "使用Web3.js & Truffle测试", 0],
+            ["/guides/truffle-migration.md", "从 Truffle 迁移", 0],
             ["/guides/deploying.md", "Deploying your contracts", 0],
             ["/guides/scripts.md", "Writing scripts", 0],
             ["/guides/mainnet-forking.md", "Mainnet forking", 0],

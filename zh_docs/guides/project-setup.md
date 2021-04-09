@@ -1,4 +1,4 @@
-# 项目设置
+# 启动项目
 
 Hardhat项目是安装了 `hardhat `包和 `hardhat.config.js `文件的`npm`项目。
 

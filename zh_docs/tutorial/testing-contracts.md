@@ -1,11 +1,12 @@
-# 5. Testing contracts
+# 5. 测试合约
 
-Writing automated tests when building smart contracts is of crucial importance, as your user's money is what's at stake. For this we're going to use **Hardhat Network**, a local Ethereum network designed for development that is built-in and the default network in **Hardhat**. You don't need to setup anything to use it. In our tests we're going to use ethers.js to interact with the Ethereum contract we built in the previous section, and [Mocha](https://mochajs.org/) as our test runner. 
+为智能合约编写自动化测试至关重要，因为事关用户资金。 为此，我们将使用**Hardhat Network**，这是一个内置的以太坊网络，专门为开发设计，并且是**Hardhat**中的默认网络。 无需进行任何设置即可使用它。 在我们的测试中，我们将使用[ethers.js](https://learnblockchain.cn/docs/ethers.js/)与前面构建的合约进行交互，并使用 [Mocha](https://mochajs.org/) 作为测试运行器。 
 
-## Writing tests
-Create a new directory called `test` inside our project root directory and create a new file called `Token.js`. 
+## 编写测试用例
 
-Let's start with the code below. We'll explain it next, but for now paste this into `Token.js`:
+在项目根目录中创建一个名为`test`的新目录，并创建一个名为`Token.js`的新文件。
+
+让我们从下面的代码开始。 在后面我们将对其进行解释，但现在将其粘贴到`Token.js`中：
 
 ```js
 const { expect } = require("chai");
@@ -24,7 +25,7 @@ describe("Token contract", function() {
 });
 ````
 
-On your terminal run `npx hardhat test`. You should see the following output:
+在终端上运行`npx hardhat test`。 你应该看到以下输出：
 
 ```
 $ npx hardhat test
@@ -36,54 +37,56 @@ $ npx hardhat test
   1 passing (663ms)
 ```
 
-This means the test passed. Let's now explain each line:
+这意味着测试通过了。 现在我们逐行解释一下：
 
 ```js
 const [owner] = await ethers.getSigners();
 ```
 
-A `Signer` in ethers.js is an object that represents an Ethereum account. It's used to send transactions to contracts and other accounts. Here we're getting a list of the accounts in the node we're connected to, which in this case is **Hardhat Network**, and only keeping the first one.
+ethers.js中的`Signer` 代表以太坊账户对象。 它用于将交易发送到合约和其他帐户。 在这里，我们获得了所连接节点中的帐户列表，在本例中节点为**Hardhat Network**，并且仅保留第一个帐户。
 
-The `ethers` variable is available in the global scope. If you like your code always being explicit, you can add this line at the top:
+`ethers`变量在全局作用域下都可用。 如果你希望代码更明确，则可以在顶部添加以下这一行：
+
 ```js
 const { ethers } = require("hardhat");
 ```
 
 ::: tip
-To learn more about `Signer`, you can look at the [Signers documentation](https://docs.ethers.io/v5/api/signer/).
+提示：要了解有关`Signer`的更多信息，可以查看[Signers文档](https://docs.ethers.io/v5/api/signer/).
 :::
 
 ```js
 const Token = await ethers.getContractFactory("Token");
 ```
 
-A `ContractFactory` in ethers.js is an abstraction used to deploy new smart contracts, so `Token` here is a factory for instances of our token contract.
+ethers.js中的`ContractFactory`是用于部署新智能合约的抽象，因此此处的`Token`是用来实例代币合约的工厂。
 
 ```js
 const hardhatToken = await Token.deploy();
 ```
 
-Calling `deploy()` on a `ContractFactory` will start the deployment, and return a `Promise` that resolves to a `Contract`. This is the object that has a method for each of your smart contract functions.
+在`ContractFactory`上调用`deploy()`将启动部署，并返回解析为`Contract`的`Promise`。 该对象包含了智能合约所有函数的方法。
 
 ```js
 const ownerBalance = await hardhatToken.balanceOf(owner.address);
 ```
 
-Once the contract is deployed, we can call our contract methods on `hardhatToken` and use them to get the balance of the owner account by calling `balanceOf()`.
+部署合约后，我们可以在`hardhatToken` 上调用合约方法，通过调用`balanceOf()`来获取所有者帐户的余额。
 
-Remember that the owner of the token who gets the entire supply is the account that makes the deployment, and when using the `hardhat-ethers` plugin  `ContractFactory` and `Contract` instances are connected to the first signer by default. This means that the account in the `owner` variable executed the deployment, and `balanceOf()` should return the entire supply amount.
+请记住，部署合约的帐户获得了全部代币，在使用 `hardhat-ethers` 插件时，默认情况下， `ContractFactory`和`Contract`实例连接到第一个签名者。 这意味着`owner`变量中的帐户执行了部署，而`balanceOf()`应该返回全部发行量。
 
 ```js
 expect(await hardhatToken.totalSupply()).to.equal(ownerBalance);
 ```
 
-Here we're again using our `Contract` instance to call a smart contract function in our Solidity code. `totalSupply()` returns the token's supply amount and we're checking that it's equal to `ownerBalance`, as it should.
+在这里，再次使用 `Contract` 实例调用Solidity代码中合约函数。 `totalSupply()` 返回代币的发行量，我们检查它是否等于`ownerBalance`。
 
-To do this we're using [Chai](https://www.chaijs.com/) which is an assertions library. These asserting functions are called "matchers", and the ones we're using here actually come from [Waffle](https://getwaffle.io/). This is why we're using the `hardhat-waffle` plugin, which makes it easier to assert values from Ethereum. Check out [this section](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html) in Waffle's documentation for the entire list of Ethereum-specific matchers.
 
-### Using a different account
+判断相等，我们使用[Chai](https://www.chaijs.com/)，这是一个断言库。 这些断言函数称为“匹配器”，在此实际上使用的“匹配器”来自[Waffle](https://getwaffle.io/)。 这就是为什么我们使用`hardhat-waffle`插件，它让在以太坊上断言值变得更容易。 请查看Waffle文档中的[此部分](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html)，了解以太坊特定匹配器的完整列表。
 
-If you need to send a transaction from an account (or `Signer` in ethers.js speak) other than the default one to test your code, you can use the `connect()` method in your ethers.js `Contract` to connect it to a different account. Like this:
+### 使用不同的账号
+
+如果你需要从默认帐户以外的其他帐户(或ethers.js 中的 `Signer`)发送交易来测试代码，则可以在ethers.js的`Contract`中使用`connect()`方法来将其连接到其他帐户，像这样：
 
 ```js{18}
 const { expect } = require("chai");
@@ -108,9 +111,9 @@ describe("Transactions", function () {
 });
 ```
 
-### Full coverage
+### 完整覆盖测试
 
-Now that we've covered the basics you'll need for testing your contracts, here's a full test suite for the token with a lot of additional information about Mocha and how to structure your tests. We recommend reading through.
+我们已经介绍了测试合约所需的基础知识，以下是代币的完整测试用例，其中包含有关Mocha以及如何构组织测试的许多信息。 我们建议你通读。
 
 ```js
 // We import Chai to use its asserting functions here.
@@ -242,4 +245,4 @@ $ npx hardhat test
   5 passing (1s)
 ```
 
-Keep in mind that when you run `npx hardhat test`, your contracts will be compiled if they've changed since the last time you ran your tests.
+请记住，当你运行`npx hardhat test`时，如果合约在上次运行测试后发生了修改，则会对其进行重新编译。

@@ -1,8 +1,8 @@
-# 3. Creating a new Hardhat project
+# 3. 创建新的 Hardhat 项目
 
-We'll install **Hardhat** using the npm CLI. The **N**ode.js **p**ackage **m**anager is a package manager and an online repository for JavaScript code.
+我们将使用npm 命令行安装**hardhat**。 NPM是一个Node.js软件包管理器和一个JavaScript代码库。
 
-Open a new terminal and run these commands:
+打开一个新终端并运行以下命令：
 
 ```
 mkdir hardhat-tutorial 
@@ -12,16 +12,16 @@ npm install --save-dev hardhat
 ```
 
 ::: tip
-Installing **Hardhat** will install some Ethereum JavaScript dependencies, so be patient.
+安装**Hardhat**将安装一些以太坊JavaScript依赖项，因此请耐心等待。
 :::
 
-In the same directory where you installed **Hardhat** run:
+在安装**Hardhat**的目录下运行：
 
 ```
 npx hardhat
 ```
 
-Select `Create an empty hardhat.config.js` with your keyboard and hit enter.
+使用键盘选择"创建一个新的hardhat.config.js（`Create an empty hardhat.config.js`）" ，然后回车。
 
 
 ```{15}
@@ -43,29 +43,31 @@ Welcome to Hardhat v2.0.0
   Quit
 ```
 
-When **Hardhat** is run, it searches for the closest `hardhat.config.js` file starting from the current working directory. This file normally lives in the root of your project and an empty `hardhat.config.js` is enough for **Hardhat** to work. The entirety of your setup is contained in this file.
+在运行**Hardhat**时，它将从当前工作目录开始搜索最接近的`hardhat.config.js`文件。 这个文件通常位于项目的根目录下，一个空的`hardhat.config.js`足以使**Hardhat**正常工作。
 
-## Hardhat's architecture
+## Hardhat 架构
 
-**Hardhat** is designed around the concepts of **tasks** and **plugins**. The bulk of **Hardhat**'s functionality comes from plugins, which as a developer [you're free to choose](/plugins/) the ones you want to use. 
+**Hardhat**是围绕**task(任务)**和**plugins(插件)**的概念设计的。 **Hardhat **的大部分功能来自插件，作为开发人员，你[可以自由选择](/plugins/) 你要使用的插件。
 
-### Tasks
-Every time you're running **Hardhat** from the CLI you're running a task. e.g. `npx hardhat compile` is running the `compile` task. To see the currently available tasks in your project, run `npx hardhat`. Feel free to explore any task by running `npx hardhat help [task]`. 
+### Tasks(任务)
+
+每次在命令行运行**Hardhat**时，都是在运行任务。 例如 `npx hardhat compile`正在运行`compile`任务。 要查看项目中当前可用的任务，运行`npx hardhat`。 通过运行`npx hardhat help [task]`，可以探索任何任务。
 
 ::: tip
-You can create your own tasks. Check out the [Creating a task](/guides/create-task.md) guide.
+你可以创建自己的任务。 请查看[创建任务](/guides/create-task.md) 指南.
 :::
 
-### Plugins
-**Hardhat** is unopinionated in terms of what tools you end up using, but it does come with some built-in defaults. All of which can be overriden. Most of the time the way to use a given tool is by consuming a plugin that integrates it into **Hardhat**.
+### Plugins(插件)
 
-For this tutorial we are going to use the Ethers.js and Waffle plugins. They'll allow you to interact with Ethereum and to test your contracts. We'll explain how they're used later on. To install them, in your project directory run:
+**Hardhat** 不限制选择哪种工具，但是它确实内置了一些插件，所有这些也都可以覆盖。 大多数时候，使用给定工具的方法是将其集成到**Hardhat**中作为插件。
+
+在本教程中，我们将使用Ethers.js和Waffle插件。 通过他们与以太坊进行交互并测试合约。 稍后将解释它们的用法。 要安装它们，请在项目目录中运行：
 
 ```
 npm install --save-dev @nomiclabs/hardhat-ethers ethers @nomiclabs/hardhat-waffle ethereum-waffle chai
 ```
 
-Add the highlighted line to your `hardhat.config.js` so that it looks like this:
+将高亮行`require("@nomiclabs/hardhat-waffle");` 添加到你的`hardhat.config.js`中，如下所示：
 
 ```js {1}
 require("@nomiclabs/hardhat-waffle");

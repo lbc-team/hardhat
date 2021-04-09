@@ -1,13 +1,13 @@
-# 7. Deploying to a live network
-Once you're ready to share your dApp with other people what you may want to do is deploy to a live network. This way others can access an instance that's not running locally on your system. 
+# 7. 部署到真实网络
+准备好与其他人分享dApp后，你可能要做的就是将其部署到真实的以太坊网络中。 这样，其他人可以访问不在本地系统上运行的实例。
 
-There's the Ethereum network that deals with real money which is called "mainnet", and then there are other live networks that don't deal with real money but do mimic the real world scenario well, and can be used by others as a shared staging environment. These are called "testnets" and Ethereum has multiple ones: *Ropsten*, *Kovan*, *Rinkeby* and *Goerli*. We recommend you deploy your contracts to the *Ropsten* testnet.
+具有真实价值的以太坊网络被称为“主网”，然后还有一些不具有真实价值但能够很好地模拟主网的网络，它可以被其他人共享阶段的环境。 这些被称为“测试网”，以太坊有多个测试网：*Ropsten*，*Kovan*，*Rinkeby*和*Goerli*。 我们建议你将合约部署到*Ropsten*测试网。
 
-At the software level, deploying to a testnet is the same as deploying to mainnet. The only difference is which network you connect to. Let's look into what the code to deploy your contracts using ethers.js would look like.
+在应用软件层，部署到测试网与部署到主网相同。 唯一的区别是你连接到哪个网络。 让我们研究一下使用ethers.js部署合约的代码是什么样的。
 
-The main concepts used are `Signer`, `ContractFactory` and `Contract` which we explained back in the [testing](testing-contracts.md) section. There's nothing new that needs to be done when compared to testing, given that when you're testing your contracts you're *actually* making a deployment to your development network. This makes the code very similar, or the same.
+主要概念是`Signer`，`ContractFactory`和`Contract`，我们在[测试][testing](testing-contracts.md) 部分中对此进行了解释。与测试相比，并没有什么新的内容，因为当在测试合约时，实际上是在向开发网络进行部署。 因此代码非常相似或相同。
 
-Let's create a new directory `scripts` inside the project root's directory, and paste the following into a `deploy.js` file:
+让我们在项目根目录的目录下创建一个新的目录`scripts`，并将以下内容粘贴到 `deploy.js`文件中：
 
 ```js
 async function main() {
@@ -35,13 +35,13 @@ main()
   });
 ```
 
-To indicate **Hardhat** to connect to a specific Ethereum network when running any tasks, you can use the `--network` parameter. Like this:
+为了在运行任何任务时指示**Hardhat**连接到特定的以太坊网络，可以使用`--network`参数。 像这样：
 
 ```
 npx hardhat run scripts/deploy.js --network <network-name>
 ```
 
-In this case, running it without the `--network` parameter would get the code to run against an embedded instance of **Hardhat Network**, so the deployment actually gets lost when **Hardhat** finishes running, but it's still useful to test that our deployment code works:
+在这种情况下，如果不使用`--network` 参数来运行它，则代码将再次部署在**Hardhat network **上，因此，当**Hardhat** network 关闭后，部署实际上会丢失，但是它用来测试我们的部署代码时仍然有用：
 
 ```
 $ npx hardhat run scripts/deploy.js
@@ -50,8 +50,9 @@ Account balance: 10000000000000000000000
 Token address: 0x5FbDB2315678afecb367f032d93F642f64180aa3
 ```
 
-## Deploying to remote networks
-To deploy to a remote network such as mainnet or any testnet, you need to add a `network` entry to your `hardhat.config.js` file. We’ll use Ropsten for this example, but you can add any network similarly:
+## 部署到远程网络
+
+要部署到诸如主网或任何测试网之类的线上网络，你需要在`hardhat.config.js` 文件中添加一个`network`条目。 在此示例中，我们将使用Ropsten，但你可以类似地添加其他网络：
 
 ```js{5,11,15-20}
 require("@nomiclabs/hardhat-waffle");
@@ -77,22 +78,22 @@ module.exports = {
 };
 ```
 
-We're using [Alchemy](https://www.alchemyapi.io), but pointing `url` to any Ethereum node or gateway would work. Go grab your `ALCHEMY_API_KEY` and come back.
+我们使用了 [Alchemy](https://alchemyapi.io/?r=7d60e34c-b30a-4ffa-89d4-3c4efea4e14b), 但是你将url指向其他任何以太坊节点或网关都是可以。请填入你自己的 `ALCHEMY_API_KEY` 。
 
-To deploy on Ropsten you need to send ropsten-ETH into the address that's going to be making the deployment. You can get some ETH for testnets from a faucet, a service that distributes testing-ETH for free. [Here's the one for Ropsten](https://faucet.metamask.io/), you'll have to change Metamask's network to Ropsten before transacting. 
+要在Ropsten上进行部署，你需要将ropsten-ETH发送到将要进行部署的地址中。 你可以从水龙头（免费分发测试使用的ETH服务）获得一些用于测试网的ETH。 [这是Ropsten的一个水龙头](https://faucet.metamask.io/)，你必须在进行交易之前将Metamask的网络更改为Ropsten。
 
 ::: tip
-You can get some ETH for other testnets following these links: 
+你可以通过以下链接为其他测试网获取一些ETH
 
 * [Kovan faucet](https://faucet.kovan.network/)
 * [Rinkeby faucet](https://faucet.rinkeby.io/)
 * [Goerli faucet](https://goerli-faucet.slock.it/)
 :::
 
-Finally, run:
+最后运行：
 ```
 npx hardhat run scripts/deploy.js --network ropsten
 ```
 
-If everything went well, you should see the deployed contract address.
+如果一切顺利，你应该看到已部署的合约地址。
 

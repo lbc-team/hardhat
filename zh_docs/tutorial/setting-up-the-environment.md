@@ -2,20 +2,20 @@
 prev: false
 ---
 
-# 1. Setting up the environment
+# 1. 环境搭建
 
-Most Ethereum libraries and tools are written in JavaScript, and so is **Hardhat**. If you're not familiar with Node.js, it's a JavaScript runtime built on Chrome's V8 JavaScript engine. It's the most popular solution to run JavaScript outside of a web browser and **Hardhat** is built on top of it.
+大多数以太坊库和工具都是用JavaScript编写的，**Hardhat**也是如此。 如果你不熟悉Node.js，它是基于Chrome的V8 JavaScript引擎构建的JavaScript运行时。 这是在网络浏览器之外运行JavaScript的最受欢迎的解决方案，**Hardhat **就是建立Node.js之上。
 
-## Installing Node.js
+## 安装 Node.js
 
-You can [skip](./creating-a-new-hardhat-project.md) this section if you already have a working Node.js `>=12.0` installation. If not, here's how to install it on Ubuntu, MacOS and Windows.
+如果你已经安装了的 Node.js `> = 12.0`，则可以[跳到下一节](./creating-a-new-hardhat-project.md) 如果没有，请按照以下步骤在Ubuntu，MacOS和Windows上安装它。
 
 
 ### Linux
 
 #### Ubuntu
 
-Copy and paste these commands in a terminal:
+将以下命令复制并粘贴到终端中：
 
 ```
 sudo apt update
@@ -26,9 +26,9 @@ sudo apt install nodejs
 
 ### MacOS
 
-Make sure you have `git` installed. Otherwise, follow [these instructions](https://www.atlassian.com/git/tutorials/install-git).
+确保你已安装`git`。 否则，请遵循[这些说明](https://www.atlassian.com/git/tutorials/install-git)安装。
 
-There are multiple ways of installing Node.js on MacOS. We will be using [Node Version Manager (nvm)](http://github.com/creationix/nvm). Copy and paste these commands in a terminal:
+在MacOS上有多种安装Node.js的方法。 我们将使用 [Node 版本管理器(nvm)](http://github.com/creationix/nvm)。 将以下命令复制并粘贴到终端中：
 
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.35.2/install.sh | bash
@@ -40,34 +40,35 @@ npm install npm --global # Upgrade npm to the latest version
 
 ### Windows
 
-Installing Node.js on Windows requires a few manual steps. We'll install git, Node.js 12.x and npm. Download and run these:
-1. [Git's installer for Windows](https://git-scm.com/download/win)
-2. `node-v12.XX.XX-x64.msi` from [here](https://nodejs.org/dist/latest-v12.x)
+在Windows上安装Node.js需要一些手动步骤。 我们将安装git，Node.js 12.x和NPM的Windows构建工具。 下载并运行以下命令：
+
+1. [Git的Windows安装程序](https://git-scm.com/download/win)
+2. `node-v12.XX.XX-x64.msi` 在[这里](https://nodejs.org/dist/latest-v12.x)下载
 
 
-## Upgrading your Node.js installation
+## 升级 Node.js
 
-If your version of Node.js is older than `12.0` follow the instructions below to upgrade.
+如果你的 Node.js 版本低于  `12.0` ,  则需要通过以下指引升级。
 
 ### Linux
 
 #### Ubuntu
 
-1. Run `sudo apt remove nodejs` in a terminal to remove Node.js.
-2. Find the version of Node.js that you want to install [here](https://github.com/nodesource/distributions#debinstall) and follow the instructions.
-3. Run `sudo apt update && sudo apt install nodejs` in a terminal to install Node.js again.
+1. 运行 `sudo apt remove nodejs` 删除 Node.js.
+2. 在[这里](https://github.com/nodesource/distributions#debinstall) 找到你想要安装的版本
+3. 运行 `sudo apt update && sudo apt install nodejs` 再次安装
 
 ### MacOS
 
-You can change your Node.js version using [nvm](http://github.com/creationix/nvm). To upgrade to Node.js `12.x` run these in a terminal:
+你可以使用 [nvm](http://github.com/creationix/nvm) 切换版本. 为了升级到 Node.js `12.x` 可运行一下命令：
 
 ```
 nvm install 12
 nvm use 12
 nvm alias default 12
-npm install npm --global # Upgrade npm to the latest version
+npm install npm --global # 升级 npm 到最新版本
 ```
 
 ### Windows
 
-You need to follow the [same installation instructions](#windows) as before but choose a different version. You can check the list of all available versions [here](https://nodejs.org/en/download/releases/).
+参考安装时同样的方式，但选择不同的版本，[这里](https://nodejs.org/en/download/releases/) 列出了所有版本。

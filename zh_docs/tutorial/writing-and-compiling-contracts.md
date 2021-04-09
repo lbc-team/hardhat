@@ -1,25 +1,25 @@
-# 4. Writing and compiling smart contracts
+# 4. 编写和编译合约
 
-We're going to create a simple smart contract that implements a token that can be transferred. Token contracts are most frequently used to exchange or store value. We won't go in depth into the Solidity code of the contract on this tutorial, but there's some logic we implemented that you should know:
+我们创建一个简单的智能合约，合约实现代币转让。 代币合约最常用于兑换或价值存储。 这里，我们不深入讨论合约的Solidity代码，但是一些实现逻辑你需要知道：
 
-- There is a fixed total supply of tokens that can't be changed.
-- The entire supply is assigned to the address that deploys the contract.
-- Anyone can receive tokens.
-- Anyone with at least one token can transfer tokens.
-- The token is non-divisible. You can transfer 1, 2, 3 or 37 tokens but not 2.5.
+- 代币有固定发行总量。
+- 所有发行总量都分配给了部署合约的地址。
+- 任何人都可以接收代币。
+- 任何人拥有代币的人都可以转让代币。
+- 代币不可分割。 你可以转让1、2、3或37个代币，但不能转让2.5个代币。
 
 ::: tip
-You might have heard about ERC20, which is a token standard in Ethereum. Tokens such as DAI, USDC, MKR and ZRX follow the ERC20 standard which allows them all to be compatible with any software that can deal with ERC20 tokens. **For simplicity's sake the token we're going to build is _not_ an ERC20.**
+你可能听说过[ERC20](https://learnblockchain.cn/tags/ERC20)，它是以太坊中的代币标准。 DAI，USDC，MKR和ZRX之类的代币都遵循ERC20标准，使这些代币都可以与任何能处理ERC20代币的软件兼容。 **为了简单起见，我们要构建的代币不是ERC20**。
 :::
 
-## Writing smart contracts
+## 编写合约
 
-Start by creating a new directory called `contracts` and create a file inside the directory called `Token.sol`.
+首先创建一个名为 `contracts` 的新目录，然后在目录内创建一个名为`Token.sol`的文件。
 
-Paste the code below into the file and take a minute to read the code. It's simple and it's full of comments explaining the basics of Solidity.
+将下面的代码粘贴到文件中，花一点时间阅读代码。 它很简单，并且有很多解释[Solidity基础语法](https://learnblockchain.cn/docs/solidity/)的注释。
 
 ::: tip
-To get syntax highlighting you should add Solidity support to your text editor. Just look for Solidity or Ethereum plugins. We recommend using Visual Studio Code or Sublime Text 3.
+在文本编辑器中添加相应的插件(搜索Solidity 或 Ethereum 插件)可以支持Solidity语法高亮，我们建议使用Visual Studio Code或Sublime Text 3。
 :::
 
 ```solidity
@@ -35,7 +35,7 @@ contract Token {
     string public name = "My Hardhat Token";
     string public symbol = "MBT";
 
-    // The fixed amount of tokens stored in an unsigned integer type variable.
+    // 固定发行量，保存在一个无符号整型里
     uint256 public totalSupply = 1000000;
 
     // An address type variable is used to store ethereum accounts.
@@ -45,7 +45,7 @@ contract Token {
     mapping(address => uint256) balances;
 
     /**
-     * Contract initialization.
+     * 合约构造函数
      *
      * The `constructor` is executed only once when the contract is created.
      */
@@ -57,7 +57,7 @@ contract Token {
     }
 
     /**
-     * A function to transfer tokens.
+     * 代币转账.
      *
      * The `external` modifier makes a function *only* callable from outside
      * the contract.
@@ -74,7 +74,7 @@ contract Token {
     }
 
     /**
-     * Read only function to retrieve the token balance of a given account.
+     * 返回账号的代币余额，只读函数。
      *
      * The `view` modifier indicates that it doesn't modify the contract's
      * state, which allows us to call it without executing a transaction.
@@ -86,12 +86,12 @@ contract Token {
 ```
 
 ::: tip
-`*.sol` is used for Solidity files. We recommend matching the file name to the contract it contains, which is a common practice.
+`*.sol` 是 Solidity 合约文件的后缀。 我们建议将文件名与其包含的合约名一致，这是一种常见的做法。
 :::
 
-## Compiling contracts
+## 编译合约
 
-To compile the contract run `npx hardhat compile` in your terminal. The `compile` task is one of the built-in tasks.
+要编译合约，请在终端中运行 `npx hardhat compile` 。 `compile`任务是内置任务之一。
 
 ```
 $ npx hardhat compile
@@ -99,4 +99,4 @@ Compiling 1 file with 0.7.3
 Compilation finished successfully
 ```
 
-The contract has been successfully compiled and it's ready to be used.
+合约已成功编译了。
