@@ -1,20 +1,20 @@
-# Testing with ethers.js & Waffle
+# 使用ethers.js和Waffle进行测试
 
-Writing smart contract tests in Hardhat is done using JavaScript or TypeScript.
+在Hardhat中编写智能合约测试是使用JavaScript或TypeScript完成的。
 
-In this guide, we'll show you how to use [Ethers.js](https://docs.ethers.io/), a JavaScript library to interact with Ethereum,
-and [Waffle](https://getwaffle.io/) a simple smart contract testing library built on top of it. This is our recommended
-choice for testing.
+在本指南中，我们将向你展示如何使用[Ethers.js](https://docs.ethers.io/)，这是一个与以太坊交互的JavaScript库。
+和[Waffle](https://getwaffle.io/)在其之上构建的一个简单的智能合约测试库。 这是我们的建议选择的测试方式。
 
-Let's see how to use it going through Hardhat's sample project.
+我们通过Hardhat的示例项目来看看如何使用它。
 
 ::: tip
-Ethers and Waffle support TypeScript. Learn how to set up Hardhat with TypeScript [here](./typescript.md).
+Ethers和Waffle支持TypeScript。 了解如何使用TypeScript设置Hardhat[这里](./typescript.md)。
 :::
 
-## Setting up
+## 设置
 
-[Install Hardhat](/getting-started/README.md#installation) on an empty directory. When done, run `npx hardhat`.
+在空目录下[安装Hardhat](/getting-started/README.md#installation)，完成后，运行`npx hardhat`。
+
 
 ```
 $ npx hardhat
@@ -35,30 +35,32 @@ Welcome to Hardhat v2.0.0
   Quit
 ```
 
-Select `Create a sample project`. This will create some files and install the `@nomiclabs/hardhat-ethers`, `@nomiclabs/hardhat-waffle` plugins, and other necessary packages.
+选择 `创建一个样本项目（Create a sample project）`。 这将创建一些文件并安装`@nomiclabs/hardhat-ethers`、`@nomiclabs/hardhat-waffle`插件和其他必要的包。
+
 
 ::: tip
-Hardhat will let you know how, but in case you missed it you can install them with `npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers`
+Hardhat会让你知道如何安装，但如果你错过了，你可以用`npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers`来安装。
 :::
 
-Look at the `hardhat.config.js` file and you'll see that the Waffle plugin is enabled:
+查看`hardhat.config.js`文件，你会发现Waffle插件已经启用。
+
 
 <<< @/../packages/hardhat-core/sample-project/hardhat.config.js{1}
 
 ::: tip
-There's no need for `require("@nomiclabs/hardhat-ethers")`, as `hardhat-waffle` already does it.
+不在需要 `require("@nomiclabs/hardhat-ethers")`，  因为  `hardhat-waffle` 已经做到了
 :::
 
-## Testing
+## 测试
 
-Tests using Waffle are written with [Mocha](https://mochajs.org/) alongside with [Chai](https://www.chaijs.com/). If you
-haven't heard of them, they are super popular JavaScript testing utilities.
+使用Waffle的测试是用[Mocha](https://mochajs.org/)和[Chai](https://www.chaijs.com/)一起编写的。 如果你没有听说过它们，它们是超级流行的JavaScript测试工具。
 
-Inside `test` folder you'll find `sample-test.js`. Let's take a look at it, and we'll explain it next:
+在`test`文件夹中，你会发现`sample-test.js`。 我们来看一下，并在接下来一一解释。
+
 
 <<< @/../packages/hardhat-core/sample-project/test/sample-test.js
 
-On your terminal run `npx hardhat test`. You should see the following output:
+在终端上运行`npx hardhat test`， 你应该看到以下输出：
 
 ```
 $ npx hardhat test
@@ -69,18 +71,19 @@ $ npx hardhat test
   1 passing (762ms)
 ```
 
-This means the test passed. Let's now explain each line:
+这意味着测试通过了。 现在我们来解释一下每一行代码：
 
 ```js
 const { expect } = require("chai");
 ```
 
-We are requiring `Chai` which is an assertions library. These asserting functions are called "matchers", and the ones we're using here actually come from Waffle.
+我们需要的是 `Chai`，它是一个断言库。 这些断言函数被称为 `匹配器`，我们在这里使用的这些函数其实来自Waffle。
 
-This is why we're using the `hardhat-waffle` plugin, which makes it easier to assert values from Ethereum. Check out [this section](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html) in Waffle's documentation for the entire list of Ethereum-specific matchers.
+这就是为什么我们要使用`hardhat-waffle`插件的原因，这使得我们更容易从以太坊中断言值。 查看Waffle文档中的[本节](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html)，了解以太坊专用匹配器的整个列表。
+
 
 ::: warning
-Some Waffle matchers return a Promise rather than executing immediately. If you're making a call or sending a transaction, make sure to check Waffle's documentation, and `await` these Promises. Otherwise your tests may pass without running all checks.
+有些Waffle匹配器会返回一个Promise而不是立即执行。 如果你要调用或发送交易，一定要查看Waffle的文档，并`await`这些Promise。 否则你的测试可能会在没有运行所有检查的情况下通过。
 :::
 
 ```js
@@ -91,75 +94,85 @@ describe("Greeter", function () {
 });
 ```
 
-This wrapper just follows Mocha's proposed structure for tests, but you might have noticed the use of `async` in `it`'s callback function. Interacting with the Ethereum network and smart contracts are asynchronous operations, hence most APIs and libraries use JavaScript's `Promise` for returning values. This use of `async` will allow us to `await` the calls to our contract and the Hardhat Network node.
+这个包装器只是遵循Mocha提出的测试结构，但你可能已经注意到在`it`的回调函数中使用了`async`。 与以太坊网络和智能合约的交互是异步操作，因此大多数API和库都使用JavaScript的`Promise`来返回值。 使用 `async`可以让我们通过 `await`等待对合约和Hardhat网络节点的调用。
+
 
 ```js
 const Greeter = await ethers.getContractFactory("Greeter");
 ```
 
-A `ContractFactory` in `ethers.js` is an abstraction used to deploy new smart contracts, so `Greeter` here is a factory for instances of our greeter contract.
+`ethers.js`中的`ContractFactory`是一个用于部署新的智能合约的抽象，所以这里的`Greeter`是我们的greeter合约实例的工厂。
+
 
 ```js
 const greeter = await Greeter.deploy("Hello, world!");
 ```
 
-Calling `deploy()` on a `ContractFactory` will start the deployment, and return a `Promise` that resolves to a `Contract`. This is the object that has a method for each of your smart contract functions. Here we're passing the string `Hello, world!` to the contract's constructor.
+在 `ContractFactory`上调用 `deploy()`将开始部署，并返回一个解析为 `Contract`的 `Promise`。 这是一个合约对象，在这个对象上可以条用每个智能合约函数。 这里我们要把字符串 `Hello, world!`传递给合约的构造函数。
 
-Once the contract is deployed, we can call our contract methods on `greeter` and use them to get the state of the contract.
+一旦合约部署完毕，就可以在`greeter`上调用合约方法，用它们来获取合约的状态。
+
 
 ```js
 expect(await greeter.greet()).to.equal("Hello, world!");
 ```
 
-Here we're using our `Contract` instance to call a smart contract function in our Solidity code. `greet()` returns the greeter's greeting and we're checking that it's equal to `Hello, world!`, as it should. To do this we're using the Chai matchers `expect`, `to` and `equal`.
+在这里，我们使用`Contract`实例来调用Solidity代码中的智能合约函数。 `greet()`返回迎接者的问候语，我们正在检查它是否等于`Hello, world!`，因为它应该相等。 这里，我们使用了Chai匹配器`expect`、`to`和`equal`。
 
 ```js
 await greeter.setGreeting("Hola, mundo!");
 expect(await greeter.greet()).to.equal("Hola, mundo!");
 ```
 
-We can modify the state of a contract in the same way we read from it. Calling `setGreeting` will set a new greeting message. After the `Promise` is resolved, we perform another assertion to verify that the greeting effectively changed.
+我们可以用相同的方式修改合约的状态， 调用 `setGreeting`将设置一个新的问候信息。 在解析了 `Promise`之后，我们再进行一次断言，以验证问候语是否真正改变了。
 
-### Testing from a different account
+### 用不同的账户进行测试
 
-If you need to send a transaction from an account other than the default one, you can use the `connect()` method provided by Ethers.js.
+如果你需要从默认账户以外的账户发送交易，你可以使用Ethers.js提供的`connect()`方法。
 
-The first step to do so is to get the `Signers` object from `ethers`:
+第一步是要从`ethers`中获取`Signers`对象：
+
 
 ```js
 const [owner, addr1] = await ethers.getSigners();
 ```
 
-A `Signer` in Ethers.js is an object that represents an Ethereum account. It's used to send transactions to contracts and other accounts. Here we're getting a list of the accounts in the node we're connected to, which in this case is **Hardhat Network**, and only keeping the first and second ones.
+Ethers.js中的 `Signer`是一个代表以太坊账户的对象，它用于向合约和其他账户发送交易。 这里得到的是所连接的节点中的账户列表，这里的节点是**[Hardhat网络](../hardhat-network/README.md)**，并获得了第一和第二个账户。
+
+
 
 ::: tip
-To learn more about `Signer`, you can look at the [Signers documentation](https://docs.ethers.io/v5/api/signer/#Wallet).
+要了解更多关于 `Signer `的信息，可以查看 [Signers 文档](https://docs.ethers.io/v5/api/signer/#Wallet).
 :::
 
-The `ethers` variable is available in the global scope. If you like your code always being explicit, you can add this line at the top:
+`ethers`变量在全局作用域可用。 如果你喜欢代码显示表达，你可以在顶部添加这一行：
+
 
 ```js
 const { ethers } = require("hardhat");
 ```
 
-Finally, to execute a contract's method from another account, all you need to do is `connect` the `Contract` with the method being executed:
+最后，如果要从另一个账户执行一个合约的方法，你需要做的就是将正在执行方法的 `Contract`与账号 `connect`起来。
+
 
 ```js
 await greeter.connect(addr1).setGreeting("Hallo, Erde!");
 ```
 
-## Migrating an existing Waffle project
+## 迁移现有的Waffle项目
 
-If you're starting a project from scratch and looking to use Waffle, you can skip this section. If you're setting up an existing Waffle project to use Hardhat you'll need to migrate the [configuration options](https://ethereum-waffle.readthedocs.io/en/latest/configuration.html) Waffle offers. The following table maps Waffle configurations to their Hardhat equivalents:
+
+如果你从头开始一个项目，并希望使用Waffle，你可以跳过本节。 如果你正在建立一个现有的Waffle项目来使用Hardhat，你需要迁移Waffle提供的[配置选项](https://ethereum-waffle.readthedocs.io/en/latest/configuration.html)。 下表是Waffle配置与其Hardhat对应的配置的对应关系。
+
 |Waffle|Hardhat|
 |---|---|
 |`sourcesPath`|`paths.sources`|
 |`targetPath`|`paths.artifacts`|
-|`solcVersion`|`solc.version` (version number only)|
+|`solcVersion`|`solc.version` (仅版本号)|
 |`compilerOptions.evmVersion`|`solc.evmVersion`|
 |`compilerOptions.optimizer`|`solc.optimizer`|
 
-As an example, this Waffle configuration file:
+举个例子，这个Waffle配置文件：
 
 ```json
 {
@@ -176,7 +189,7 @@ As an example, this Waffle configuration file:
 }
 ```
 
-Would translate into this Hardhat config:
+会转换为这个Hardhat配置：
 
 ```js
 module.exports = {
@@ -197,7 +210,7 @@ module.exports = {
 };
 ```
 
-If you're migrating an existing Waffle project to Hardhat, then the minimum configuration you'll need is changing Hardhat's compilation output path, since Waffle uses a different one by default:
+如果你要将现有的Waffle项目迁移到Hardhat，那么你需要的最少配置是改变Hardhat的编译输出路径，因为Waffle默认使用不同的路径：
 
 ```js
 require("@nomiclabs/hardhat-waffle");
@@ -209,17 +222,17 @@ module.exports = {
 };
 ```
 
-### Adapting the tests
+### 调整测试
 
-Now, when testing using a standalone Waffle setup, you should use the different parts of Waffle from Hardhat.
+和之前使用单独的Waffle进行测试有所不同。
 
-For example, instead of doing:
+例如，不再这样写：
 
 ```js
 const { deployContract } = require("ethereum-waffle");
 ```
 
-You should do:
+应该是：:
 
 ```typescript
 const { waffle } = require("hardhat");
@@ -227,26 +240,23 @@ const { deployContract } = waffle;
 ```
 
 ::: warning
-Importing Waffle's functions from `ethereum-waffle`, can lead to multiple problems.
+从 `ethereum-waffle`导入Waffle的函数，可能会导致多个问题。
 
-For example, Waffle has a
-[default gas limit](https://github.com/EthWorks/Waffle/blob/3.0.2/waffle-cli/src/deployContract.ts#L4-L7) of 4 million
-gas for contract deployment transactions, which is normally too low.
+例如，Waffle有一个400万[默认的 gas 限制](https://github.com/EthWorks/Waffle/blob/3.0.2/waffle-cli/src/deployContract.ts#L4-L7) ，对于合约部署交易的Gas，通常过低。
 
-Please, make sure you import them from the `waffle` field of the [Hardhat Runtime Environment]. It is a version
-of Waffle adapted to work well with Hardhat.
+
+请确保你从 [Hardhat Runtime Environment](../advanced/hardhat-runtime-environment.md) 的`waffle`字段中导入它们。 它是一个Waffle的改编版本，与Hardhat配合得很好。
+
 :::
 
-Also, you don't need to call `chai.use`. This initialization is already handled by `@nomiclabs/hardhat-waffle`. Just be sure to include `require("@nomiclabs/hardhat-waffle");` in your Hardhat config.
+另外，你不需要调用`chai.use`。 这个初始化已经由`@nomiclabs/hardhat-waffle`处理。 只要确保在你的Hardhat配置中包含`require("@nomiclabs/hardhat-waffle");`。
 
-Finally, instead of initializing a `MockProvider`, just use the plugin's provider like this
+最后，不需要初始化一个`MockProvider`，只需要使用插件的provider就可以了，就像这样:
+
 
 ```js
 const { waffle } = require("hardhat");
 const provider = waffle.provider;
 ```
 
-Run your tests with `npx hardhat test` and you should get stack traces when a transaction fails.
-
-[hardhat network]: ../hardhat-network/README.md
-[hardhat runtime environment]: ../advanced/hardhat-runtime-environment.md
+用`npx hardhat test`运行你的测试，当一个交易失败时，你应该得到堆栈记录。
