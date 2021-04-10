@@ -1,12 +1,14 @@
-# Testing with Web3.js & Truffle
+# 使用Web3.js和Truffle进行测试
 
-Hardhat allows you to use Truffle to test your smart contracts. This mainly means compatibility with the [`@truffle/contract`](https://www.npmjs.com/package/@truffle/contract) package to interact with your smart contracts. 
+Hardhat允许你使用Truffle来测试你的智能合约。 这主要因为兼容[`@truffle/contract`](https://www.npmjs.com/package/@truffle/contract)包与智能合约进行交互。
 
-Truffle 4 and Truffle 5 are supported using the `@nomiclabs/hardhat-truffle4` and `@nomiclabs/hardhat-truffle5` plugins respectively. Both work with either Solidity 4+.
+Truffle 4和Truffle 5分别使用`@nomiclabs/hardhat-truffle4`和`@nomiclabs/hardhat-truffle5`插件支持。 都能与Solidity 4+配合使用。
 
-Let's see how to do this creating a new Hardhat project.
+让我们来看看如何做到创建一个新的Hardhat项目。
 
-Run these to start:
+
+运行这些开始:
+
 ```
 mkdir my-project
 cd my-project
@@ -14,15 +16,16 @@ npm init --yes
 npm install --save-dev hardhat
 ```
 
-Now run `npx hardhat` inside your project folder and select `Create an empty hardhat.config.js`.
+现在在你的项目文件夹中运行`npx hardhat`并选择`创建一个空的hardhat.config.js`。
 
-Let's now install the `Truffle` and `Web3.js` plugins, as well as `web3.js` itself.
+现在让我们安装`Truffle`和`Web3.js`插件，以及`web3.js`本身。
+
 
 ```
 npm install --save-dev @nomiclabs/hardhat-truffle5 @nomiclabs/hardhat-web3 web3
 ```
 
-Enable the Truffle 5 plugin on your Hardhat config file by requiring it:
+在你的Hardhat配置文件中引入并启用Truffle 5插件：
 
 ```js{1}
 require("@nomiclabs/hardhat-truffle5");
@@ -32,9 +35,9 @@ module.exports = {
 };
 ```
 
-Create a folder named `contracts` inside your project. Add a file named `Greeter.sol`, copy and paste the code below:
+在项目中创建一个名为 `contracts`的文件夹。 添加一个名为`Greeter.sol`的文件，复制并粘贴下面的代码：
 
-```c
+```solidity
 pragma solidity ^0.7.0;
 
 contract Greeter {
@@ -56,16 +59,16 @@ contract Greeter {
 }
 ```
 
-## Writing a test
+## 编写测试
 
-Create a new directory called `test` inside your project root directory and create a new file called `Greeter.js`.
+在项目根目录下新建一个名为 `test`的目录，并创建一个名为 `Greeter.js`的新文件。
 
-Let's start with the code below. We'll explain it next, but for now paste this into `Greeter.js`:
+我们先来看看下面的代码。 稍后将在下一步解释它，但现在只把代码粘贴到`Greeter.js`中：
 
 ```js
 const Greeter = artifacts.require("Greeter");
 
-// Traditional Truffle test
+// 传统的 Truffle 测试
 contract("Greeter", accounts => {
   it("Should return the new greeting once it's changed", async function() {
     const greeter = await Greeter.new("Hello, world!");
@@ -77,7 +80,7 @@ contract("Greeter", accounts => {
   });
 });
 
-// Vanilla Mocha test. Increased compatibility with tools that integrate Mocha.
+// Vanilla Mocha 测试，集成Mocha工具增强了兼容性
 describe("Greeter contract", function() {
   let accounts;
 
@@ -97,19 +100,22 @@ describe("Greeter contract", function() {
 });
 ```
 
-As you can see in the first line, the artifacts object is present in the global scope and you can use it to access the Truffle contract abstractions.
+正如你在第一行中所看到的，artifacts对象存在于全局作用域中，你可以使用它来访问Truffle合约抽象。
+
 
 ```js
 const Greeter = artifacts.require("Greeter");
 ````
 
-These examples show two approaches towards testing: 
-- Using `contract()`, which is the traditional way to test with Truffle
-- Using `describe()`, which is the traditional way to test using Mocha
+这个例子显示了两种测试方法：
 
-Truffle runs its tests with Mocha, but a few tools that integrate Mocha don't expect `contract()` and don't always work well. We recommend using the `describe()` approach.
+- 使用 `contract()`，这是Truffle的传统测试方法。
+- 使用 `describe()`， 这是使用Mocha进行测试的传统方式。
 
-You can run these tests by running `npx hardhat test`:
+Truffle用Mocha来运行测试，但一些集成Mocha的工具并不兼容 `contract()`，因此不总是能很好地工作。 我们建议使用`describe()`方法。
+
+
+你可以通过运行`npx hardhat test`来运行这些测试。:
 ```
 $ npx hardhat test
 
@@ -124,11 +130,13 @@ Contract: Greeter
   2 passing (398ms)
 ```
 
-If you want to use Truffle Migrations to initialize your tests and call `deployed()` on the contract abstractions, both `@nomiclabs/hardhat-truffle4` and `@nomiclabs/hardhat-truffle5` offer a fixtures feature to make this possible. Take a look at the [Truffle migration guide](./truffle-migration.md) to learn more.
+如果你想使用Truffle Migrations来初始化你的测试，并在合约抽象上调用`deployed()`，`@nomiclabs/hardhat-truffle4`和`@nomiclabs/hardhat-truffle5`都提供了附加固件功能来实现它。 请看[Truffle迁移指南](./truffle-migration.md)了解更多。
 
-## Using Web3.js
 
-To use Web3.js in your tests, an instance of it is available in the global scope. You can see this in the `describe()` test in `sample-test.js`:
+## 使用Web3.js
+
+要在测试中使用Web3.js，它的一个实例在全局范围内是可用的。 你可以在`sample-test.js`中的`describe()`测试中看到这一点：
+
 
 ```js{20}
 const Greeter = artifacts.require("Greeter");
@@ -165,7 +173,7 @@ describe("Greeter contract", function() {
 });
 ```
 
-Checkout the plugin's [README file](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-truffle5) for more information about it.
+查看该插件的 [README file](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-truffle5) f以获取更多相关信息。
 
 
 [Hardhat Runtime Environment]: /documentation/#hardhat-runtime-environment-hre

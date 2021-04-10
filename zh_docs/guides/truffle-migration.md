@@ -1,34 +1,26 @@
-# Migrating from Truffle
+# 从Truffle迁移到
+
+Hardhat是一个任务运行器，方便构建以太坊智能合约。 它可以帮助开发人员管理和自动化构建智能合约过程中固有的重复性任务，并围绕这一工作流程轻松引入更多功能。 这意味着在最核心的功能是进行编译和测试。
+
+Hardhat的大部分功能来自于插件，作为开发者，你可以自由选择你想使用的插件。 Truffle 4和5的插件可以让你轻松迁移到Hardhat。
+
+要将现有的Truffle项目迁移到Hardhat上，主要有以下两件事要考虑：测试和部署。
 
 
-Hardhat is a task runner that facilitates building Ethereum smart contracts. It helps developers manage and automate the recurring tasks that are inherent to the process of building smart contracts, as well as easily introducing more functionality around this workflow. This means compiling and testing at the very core.
+### 测试
 
-The bulk of Hardhat's functionality comes from plugins, which as a developer you're free to choose the ones you want to use. There are plugins for Truffle 4 and 5 that make migrating to Hardhat easy.
+谈到单元测试，有两个Hardhat插件支持Truffle测试API ： `hardhat-truffle4`和`hardhat-truffle5`。两个插件都支持Solidity 4+ 版本。 使用他们就可以用Hardhat运行现有的测试。
 
+如果你想了解编写Truffle测试在Hardhat中运行的细节，可以阅读[这个指南](./truffle-testing.md)，但没有必要迁移你现有的测试用例。
 
+#### 迁徙和 hardhat-truffle 固件
 
-To migrate an existing Truffle project onto Hardhat there are 
-two main things to consider: testing and deployment.
+如果你的项目使用[Truffle Migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations)来初始化你的测试环境(即测试调用`Contract.deployed()`)，那么要运行测试还需要做一些工作。
 
-### Testing
+Truffle插件目前并不完全支持Migrations。相反，需要调整你的Migrations，使之成为一个Hardhat的 hardhat-truffle 固件。
+这个文件位于`test/truffle-fixture.js`，部署你的合约并对每个你想测试的合约抽象调用`setAsDeployed()`方法。
 
-When it comes to unit tests, there are two Hardhat plugins 
-that support the Truffle testing APIs: `hardhat-truffle4` and `hardhat-truffle5`. 
-Both plugins support Solidity 4+. Using these you can run your existing tests with Hardhat.
-
-Read [this guide](./truffle-testing.md) If you want to learn the details of writing Truffle tests to run in Hardhat, but it's not necessary to migrate your existing test suite.
-
-#### Migrations and hardhat-truffle fixtures
-
-If your project uses [Truffle Migrations](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) to initialize your testing environment (i.e. your tests call `Contract.deployed()`), then there's some more work to do to be able to run your tests.
-
-The Truffle plugins currently don't fully support Migrations. 
-Instead, you need to adapt your Migrations to become a hardhat-truffle fixture.
-This file, located at `test/truffle-fixture.js`, deploys your contracts
-and calls the `setAsDeployed()` method on each of the contract abstractions 
-you want to test.
-
-For example, this migration:
+例如，这个迁移：
 
 ```js
 const Greeter = artifacts.require("Greeter");
@@ -39,7 +31,7 @@ module.exports = function(deployer) {
 
 ```
 
-should become this hardhat-truffle fixture:
+应该会成为 hardhat-truffle 固件的方式：
 
 ```js
 const Greeter = artifacts.require("Greeter");
@@ -50,41 +42,41 @@ module.exports = async () => {
 }
 ```
 
-These fixtures will run on Mocha's `before`, which runs before each `contract()` function runs, just like Truffle migrations do.
+这些固件将在Mocha的`before`上运行，它在每个`contract()`函数运行之前运行，就像Truffle迁移做的那样。
 
-If you have multiple migrations, you don't need to create multiple 
-hardhat-truffle fixture files. You can deploy all your contracts from the same one.
 
-Once you've written your hardhat-truffle fixtures for your migrations and completed your setup you can run your tests
-with `npx hardhat test`. Take a look at the [Truffle testing guide](/guides/truffle-testing.md) to learn more about using Truffle with Hardhat.
+如果你有多个迁移，你不需要创建多个hardhat-truffle 固件文件。 你可以从同一份文件中部署所有的合约。
 
-### Deployment
+一旦为你的迁移编写了Hardhat-truffle固件并完成了设置，你就可以运行你的测试了。
+使用`npx hardhat test`。 查看[Truffle测试指南](/guides/truffle-testing.md)，了解更多关于在Hardhat上使用的Truffle的信息。
 
-When it comes to deploying, there are no plugins that implement a deployment system for Hardhat yet, but there's [an open issue](https://github.com/nomiclabs/hardhat/issues/381) with some ideas and we'd value your opinion on how to best design it.
 
-### Truffle 4 and Web3.js' synchronous calls
+### 部署
 
-Truffle 4 uses Web3.js `0.20.x`, which supports doing synchronous calls. 
-These aren't supported by the `hardhat-web3-legacy` plugin, which is the plugin that integrates Web3.js `0.20.x`.
+说到部署，目前还没有实现Hardhat部署系统的插件，这有一些想法[的公开Issue](https://github.com/nomiclabs/hardhat/issues/381)，我们希望你能提出意见，如何最好地设计它。
 
-Instead, you should use the promisified version of Web3.js offered by the plugin: `pweb3`. It's available
-as a global variable in your tests and tasks, and in the [Hardhat Runtime Environment](../advanced/hardhat-runtime-environment.md).
-It has the same API as Web3.js, but asynchronous operations return promises.
 
-For example, this code:
+### Truffle 4和Web3.js的同步调用
+
+Truffle 4 使用Web3.js`0.20.x`，支持做同步调用。
+这些都是`hardhat-web3-legacy`插件（集成Web3.js`0.20.x`的插件）不支持的。
+
+
+相反，你应该使用Web3.js提供的promisified版本 `pweb3`。 它会作为一个测试和任务中的全局可用的变量，并可在[Hardhat Runtime Environment](.../advanced/hardhat-runtime-environment.md)中使用。
+它的API与Web3.js相同，但异步操作会返回promises。
+
+
+例如，这段代码:
 
 ```js
 console.log(web3.eth.accounts)
-``` 
+```
 
-should become:
+应成为:
 
 ```js
 console.log(await web3.eth.getAccounts())
-``` 
+```
 
 
-
-
-
-For any help or feedback you may have, you can find us in the [Hardhat Support Discord server](https://hardhat.org/discord).
+如果你有任何帮助或反馈，你可以在[Hardhat Support Discord服务器](https://hardhat.org/discord)找到我们。

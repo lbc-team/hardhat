@@ -80,4 +80,4 @@ module.exports = {
 };
 ```
 
-We're only requiring `hardhat-waffle` here because it depends on `hardhat-ethers` so adding both isn't necessary.
+这里引入`hardhat-waffle`，因为它依赖于`hardhat-ethers`，因此不需要同时添加两个。
