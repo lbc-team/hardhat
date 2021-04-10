@@ -1,4 +1,4 @@
-# Using the Hardhat console
+# 使用Hardhat控制台
 
 Hardhat comes built-in with an interactive JavaScript console. You can use it by running `npx hardhat console`:
 ```

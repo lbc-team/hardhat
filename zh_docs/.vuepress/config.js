@@ -91,7 +91,7 @@ module.exports = {
             ["/guides/truffle-migration.md", "从 Truffle 迁移", 0],
             ["/guides/deploying.md", "部署合约", 0],
             ["/guides/scripts.md", "编写脚本", 0],
-            ["/guides/mainnet-forking.md", "Mainnet forking", 0],
+            ["/guides/mainnet-forking.md", "Fork 主网", 0],
             ["/guides/hardhat-console.md", "Using the Hardhat console", 0],
             ["/guides/create-task.md", "Creating a task", 0],
             ["/guides/ganache-tests.md", "Running tests with Ganache", 0],

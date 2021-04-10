@@ -1,18 +1,21 @@
-# Mainnet forking
+# Fork 主网
 
-You can start an instance of Hardhat Network that forks mainnet. This means that it will simulate having the same state as mainnet, but it will work as a local development network. That way you can interact with deployed protocols and test complex interactions locally.
+你可以启动一个Fork主网的Hardhat Network实例。 Fork主网意思是模拟具有与主网相同的状态的网络，但它将作为本地开发网络工作。 这样你就可以与部署的协议进行交互，并在本地测试复杂的交互。
 
-To use this feature you need to connect to an archive node. We recommend using [Alchemy].
+要使用此功能，你需要连接到存档节点。 建议使用[Alchemy]。
 
-## Forking from mainnet
 
-The easiest way to try this feature is to start a node from the command line:
+## 从主网进行Fork
+
+最简单的方法是通过命令行来启动一个节点来尝试这个功能：
+
 
 ```
 npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/<key>
 ```
 
-You can also configure Hardhat Network to always do this:
+你也可以将Hardhat Network配置为总是进行 fork ：
+
 
 ```js
 networks: {
@@ -24,19 +27,21 @@ networks: {
 }
 ```
 
-By accessing any state that exists on mainnet, Hardhat Network will pull the data and expose it transparently as if it was available locally.
+通过访问主网上存在的任何状态，Hardhat Network将拉取数据并透明地暴露它，就像使用本地数据一样。
 
-## Pinning a block
 
-Hardhat Network will by default fork from the latest mainnet block. While this might be practical depending on the context, we recommend forking from a specific block number to set up a test suite that depends on forking.
+## 锁定（Pinning）区块
 
-There are two reasons for this:
-- The state your tests run against may change between runs. This could cause your tests or scripts to behave differently.
-- Pinning enables caching. Every time data is fetched from mainnet, Hardhat Network caches it on disk to speed up future access. If you don't pin the block, there's going to be new data with each new block and the cache won't be useful. We measured up to 20x speed improvements with block pinning.
+Hardhat网络默认会从最新的主网区块进行Fork。 虽然根据环境，这可能是实用的，但我们建议从一个特定的块号Fork，以建立一个依赖于Fork的测试套件。
 
-**You will need access to a node with archival data for this to work.** This is why we recommend [Alchemy], since their free plans include archival data.
+这么做有两个原因:
 
-To pin the block number:
+- 测试运行的状态可能会在运行之间发生变化。 这可能会导致你的测试或脚本有不同的表现。
+- 锁定区块启用了缓存。 每次从主网获取数据时，Hardhat Network都会将其缓存在磁盘上，以加快未来的访问速度。 如果你不锁定区块，每一个新的块都会有新的数据，缓存就没有用了。 我们测算出，使用锁定区块后，速度可提高20倍。
+
+这就是为什么我们推荐[Alchemy]的原因，因为他们的免费访问额度里包含了档案数据。
+
+锁定区块号使用:
 
 ```js
 networks: {
@@ -49,18 +54,19 @@ networks: {
 }
 ```
 
+如果你使用`node`任务，你也可以用`--fork-block-number`标志指定一个块号。
 
-If you are using the `node` task, you can also specify a block number with the `--fork-block-number` flag:
 
 ```
 npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/<key> --fork-block-number 11095000
 ```
 
-## Impersonating accounts
+## 冒充账户
 
-Once you've got local instances of mainnet protocols, setting them in the specific state your tests need is likely the next step. To make this easy, Hardhat Network allows you to send transactions impersonating specific account and contract addresses.
+一旦你有了主网网络的本地实例，将它们设置在你的测试所需的特定状态下，就可能是下一步要做的。 为了方便，Hardhat Network允许你冒充特定账户和合约地址发送交易。
 
-To impersonate an account use the `hardhat_impersonateAccount` RPC method passing the address to impersonate as its parameter:
+
+使用`hardhat_impersonateAccount`RPC方法，传递要冒充的地址作为参数，来冒充一个账户。
 
 ```tsx
 await hre.network.provider.request({
@@ -69,7 +75,7 @@ await hre.network.provider.request({
 )
 ```
 
-Call `hardhat_stopImpersonatingAccount` to stop impersonating:
+调用`hardhat_stopImpersonatingAccount`停止冒充:
 
 ```tsx
 await hre.network.provider.request({
@@ -78,16 +84,17 @@ await hre.network.provider.request({
 )
 ```
 
-If you are using [`hardhat-ethers`](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers), call `getSigner` to use the impersonated account:
+如果你正在使用[`hardhat-ethers`](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers)，调用`getSigner`来使用冒充账户。
 
 ```
 const signer = await ethers.provider.getSigner("0x364d6D0333432C3Ac016Ca832fb8594A8cE43Ca6")
 signer.sendTransaction(...)
 ```
 
-## Resetting the fork
+## 重置Fork
 
-You can manipulate forking during runtime to reset back to a fresh forked state, fork from another block number or disable forking by calling `hardhat_reset`:
+你可以在运行时里操作Fork，如重置回全新的Fork状态、从另一个区块号Fork，或者通过调用`hardhat_reset`禁用Fork:
+
 
 ```ts
 await network.provider.request({
@@ -101,7 +108,7 @@ await network.provider.request({
 })
 ```
 
-You can disable forking by passing empty params:
+你可以通过传递空参数来禁用Fork:
 
 ```ts
 await network.provider.request({
@@ -110,12 +117,15 @@ await network.provider.request({
 })
 ```
 
+这将重置Hardhat Network，在[这里](../hardhat-network/README.md#hardhat-network-initial-state)描述的状态下启动一个新的实例。
+
 This will reset Hardhat Network, starting a new instance in the state described [here](../hardhat-network/README.md#hardhat-network-initial-state).
 
-## Troubleshooting
+## 故障排除
 
 ### "Project ID does not have access to archive state"
 
-Using Infura without the archival addon you will only have access to the state of the blockchain during recent blocks. To avoid this problem, you can use a local archive node, or a service that provides archival data like [Alchemy].
+在没有存档插件的情况下使用Infura，你只能在最近的区块中访问区块链的状态。 为了避免这个问题，你可以使用本地归档节点，或者像[Alchemy]这样提供归档数据的服务。
 
-[Alchemy]: https://alchemyapi.io/
+
+[Alchemy]: https://alchemyapi.io/?r=7d60e34c-b30a-4ffa-89d4-3c4efea4e14b
