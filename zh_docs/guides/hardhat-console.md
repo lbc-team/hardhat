@@ -1,15 +1,18 @@
 # 使用Hardhat控制台
 
-Hardhat comes built-in with an interactive JavaScript console. You can use it by running `npx hardhat console`:
+Hardhat内置了一个交互式JavaScript控制台。 你可以通过运行`npx hardhat console`来使用它:
+
 ```
 $ npx hardhat console
 All contracts have already been compiled, skipping compilation.
 >
 ```
 
-The `compile` task will be called before opening the console prompt, but you can skip this with the `--no-compile` parameter.
+`compile`任务将在打开控制台提示符之前被调用，但你可以用 `no-compile` 参数跳过编译。
 
-The execution environment for the console is the same as for tasks. This means the configuration has been processed, and the [Hardhat Runtime Environment] initialized and injected into the global scope. For example, that you'll have access in the global scope to the `config` object:
+控制台的执行环境与任务的执行环境相同。 意味着配置已被处理，[Hardhat运行时环境]已被初始化并注入全局作用域。 例如，可以在全局范围内访问`config`对象：
+
+
 ```
 > config
 { defaultNetwork: 'hardhat',
@@ -22,7 +25,8 @@ The execution environment for the console is the same as for tasks. This means t
 >
 ```
 
-And the initialized `ethers` object if you're using the `hardhat-ethers` plugin:
+如果你使用`hardhat-ethers`插件，则会初始化`ethers`对象：
+
 ```
 > ethers
 { provider:
@@ -36,11 +40,13 @@ And the initialized `ethers` object if you're using the `hardhat-ethers` plugin:
 >
 ```
 
-And the `artifacts` object if you're using the `hardhat-truffle5` plugin, and so on. 
+如果你使用的了`hardhat-truffle5`插件，那么`artifacts`对象也会初始化。
 
-Anything that has been injected into the [Hardhat Runtime Environment] will be magically available in the global scope, or if you're the more explicit kind of developer, you can also require the HRE explicitly and get autocomplete:
 
-TODO-HH: re-run this
+任何已经注入[Hardhat运行时环境]的内容都会神奇地在全局范围内可用，如果你是那种比较明确的开发者，也可以明确引入HRE，并获得自动补全：
+
+
+TODO-HH: 重新运行：
 
 ```
 > const hardhat = require("hardhat")
@@ -58,15 +64,18 @@ hardhat.network               hardhat.run                   hardhat.tasks
 >
 ```
 
-You will also notice that the console has the handy history feature you expect out of most interactive terminals, including across different sessions. Try it by pressing the up arrow key.
+你还会注意到，控制台具有方便的历史记录功能（大多数交互式终端也具有），即使跨不同会话，你可以试试按上方向键。
 
-### Asynchronous operations and top-level await
 
-Interacting with the Ethereum network and your smart contracts are asynchronous operations, hence most APIs and libraries
-use JavaScript's `Promise` for returning values.   
+### 异步操作和顶层设计的await
 
-To make things easier, Hardhat's console supports `await` top-level await (i.e. `console.log(await web3.eth.getBalance()`). To use this feature, you need to be using Node 10 or higher.
+与以太坊网络和智能合约的交互是异步操作，因此大多数API和库是使用JavaScript的`Promise`来作为返回值。
 
-For any help or feedback you may have, you can find us in the [Hardhat Support Discord server](https://hardhat.org/discord).
+为了更方便，Hardhat的控制台支持在顶层直接使用 `await` （例如：`console.log(await web3.eth.getBalance()`）。 要使用此功能，需要使用Node 10或更高版本。
 
-[Hardhat Runtime Environment]: ../advanced/hardhat-runtime-environment.md
+
+如果你有任何帮助或反馈，你可以在[Hardhat Support Discord服务器](https://hardhat.org/discord)找到我们。
+
+
+
+[Hardhat运行时环境]: ../advanced/hardhat-runtime-environment.md
