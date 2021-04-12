@@ -1,4 +1,4 @@
-# Running tests on Visual Studio Code
+# 在Visual Studio代码上运行测试
 
 You can run your tests from [Visual Studio Code](https://code.visualstudio.com)
 by using one of its Mocha integration extensions. We recommend using [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter).

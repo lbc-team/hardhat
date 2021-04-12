@@ -1,36 +1,39 @@
-# TypeScript Support
+#  TypeScript支持
 
-In this guide, we will go through the steps to get a Hardhat project working with TypeScript. This means that you can write your Hardhat config, tasks, scripts and tests in [TypeScript](https://www.typescriptlang.org/). 
 
-For a general overview of using Hardhat refer to the [Getting started guide](../getting-started).
+在本指南中，我们将一步步演示Hardhat项目与TypeScript一起协作。 意味着你可以用[TypeScript](https://www.typescriptlang.org/)编写Hardhat配置、任务、脚本和测试。
 
-## Enabling TypeScript support
+关于Hardhat的概述，请参考[入门指南](../getting-started)。
 
-Hardhat will automatically enable its TypeScript support if your config file ends in `.ts` and is written
-in valid TypeScript. This requires a few changes to work properly.
 
-### Installing dependencies
+## 启用TypeScript支持
 
-Hardhat uses TypeScript and `ts-node` under the hood, so you need to install them.
-To do it, open your terminal, go to your Hardhat project, and run:
+如果配置文件以`.ts`结尾，并一有效的TypeScript编写，Hardhat会自动启用TypeScript支持。不过也还需要做一些改动才能正常使用。
+
+
+### 安装依赖
+
+Hardhat在背后使用TypeScript和`ts-node`，所以你需要安装它们。
+打开终端，进入Hardhat项目，并运行:
+
 
 ```
 npm install --save-dev ts-node typescript
 ```
 
-To be able to write your tests in TypeScript, you also need these packages:
+为了能够在TypeScript中编写测试，你还需要这些包:
+
 
 ```
 npm install --save-dev chai @types/node @types/mocha @types/chai
 ```
 
-### TypeScript configuration
+### TypeScript配置
 
-You can easily turn a JavaScript Hardhat config file into a TypeScript one. Let's see how this is done starting with a
-fresh Hardhat project.
+你可以很容易地把一个JavaScript Hardhat配置文件变成一个TypeScript文件。 看看是如何做到的，先从一个全新的Hardhat项目开始。
 
-Open your terminal, go to an empty folder, run `npx hardhat`, and go through the steps to create a sample
-project. When you're done your project directory should look something like this:
+打开终端，进入一个空的文件夹，运行`npx hardhat`，然后通过向导步骤来创建一个示例项目。 完成后，你的项目目录应该是这样的：
+
 
 ```
 $ ls -l
@@ -44,21 +47,22 @@ drwxr-xr-x    3 pato  wheel      96 Oct 20 12:50 scripts/
 drwxr-xr-x    3 pato  wheel      96 Oct 20 12:50 test/
 ```
 
-Then, you should follow the steps mentioned in the [Installing dependencies](#installing-dependencies) section above.
+然后，你应该按照上面[安装依赖](#安装依赖)一节中提到的步骤进行。
 
-Now, we are going to rename the config file from `hardhat.config.js` to `hardhat.config.ts`, just run:
+现在，我们要把配置文件从`hardhat.config.js`改名为`hardhat.config.ts`，运行：
 
 ```
 mv hardhat.config.js hardhat.config.ts
 ```
 
-We need to apply three changes to your config for it to work with TypeScript:
+还需要对配置进行三个改变，使其与TypeScript一起工作：
 
-1. Plugins must be loaded with `import` instead of `require`.
-2. You need to explicitly import the Hardhat config functions, like `task`.
-3. If you are defining tasks, they need to access the [Hardhat Runtime Environment] explicitly, as a parameter.
 
-For example, the sample project's config turns from this
+1. 必须用 `import `而不是 `require `加载插件。
+2. 需要显式导入Hardhat配置函数，比如`task`。
+3. 如果你正在自定义任务，它们需要明确地访问[Hardhat运行时环境]，作为一个参数。
+
+例如，示例项目的配置原来是这样：
 
 ```js{1,5-6,19-21}
 require("@nomiclabs/hardhat-waffle");
@@ -84,7 +88,7 @@ module.exports = {
 };
 ```
 
-into this
+变更后为：
 
 ```typescript{1-2,6-7,17-19}
 import { task } from "hardhat/config";
@@ -108,15 +112,17 @@ export default {
 };
 ```
 
-And that's really all it takes. Now you can write your config, tests, tasks and scripts in TypeScript.
+所有要做的就是这些，现在你可以在TypeScript中编写配置，测试，任务和脚本。
 
-## Writing tests and scripts in TypeScript
 
-To write your smart contract tests and scripts you'll most likely need access to an Ethereum library to interact with your smart contracts. This will probably be one of [hardhat-ethers](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers) or [hardhat-web3](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-web3), all of which inject instances into the [Hardhat Runtime Environment].
+## 用TypeScript编写测试和脚本
 
-When using JavaScript, all the properties in the HRE are injected into the global scope, and are also available by getting the HRE explicitly. When using TypeScript nothing will be available in the global scope and you will need to import everything explicitly.
+要编写智能合约测试和脚本，你很可能需要访问以太坊库来与智能合约交互。 这可以是[hardhat-ethers](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers)或[hardhat-web3](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-web3)，它们都会将实例注入[Hardhat运行时环境（HRE）](../advanced/hardhat-runtime-environment.md)。
 
-An example for tests:
+当使用JavaScript时，HRE中的所有属性都会被注入到全局作用域中，也可以通过显式获取HRE来获得。当使用TypeScript时，则需要显式地导入所有变量。
+
+一个测试示例:
+
 
 ```typescript
 import { ethers } from "hardhat";
@@ -135,7 +141,7 @@ describe("Token", function () {
 });
 ```
 
-An example for scripts:
+一个脚本示例:
 
 ```typescript
 import { run, ethers } from "hardhat";
@@ -156,11 +162,12 @@ main()
   });
 ```
 
-## Type-safe configuration
+## 类型安全配置
 
-One of the advantages of using TypeScript, is that you can have a type-safe configuration, and avoid typos and other common errors.
+使用TypeScript的一个好处是，你可以有一个类型安全的配置，并避免错别字和其他常见错误。
 
-To do that, you have to write your config in this way:
+要做到这一点，你必须这样写你的配置：
+
 
 ```ts
 import { HardhatUserConfig } from "hardhat/config";
@@ -172,14 +179,15 @@ const config: HardhatUserConfig = {
 export default config;
 ```
 
-## Customizing TypeScript with a `tsconfig.json` file
+## 使用`tsconfig.json`文件自定义TypeScript
 
-Hardhat doesn't need a `tsconfig.json` file to work, but you can still create one. 
+Hardhat不需要一个`tsconfig.json`文件就可以工作，但你仍然可以创建一个。
 
-If you don't know what a `tsconfig.json` file is, or you are not sure if you care about it, 
-we recommend you skip this section.
+如果你不知道`tsconfig.json`文件是什么，或者你不确定自己是否关心它。
+我们建议你跳过本节。
 
-If you are sure you need a `tsconfig.json` file, here's a template to base yours on:
+
+如果你确定你需要一个`tsconfig.json`文件，这里有一个模板作为基础：
 
 ```json
 {
@@ -195,23 +203,20 @@ If you are sure you need a `tsconfig.json` file, here's a template to base yours
 }
 ```
 
-However you modify it, please make sure your config file is included in your project. The easiest way of doing this is
-by keeping its path in the `files` array.
+无论你如何修改它，请确保你的配置文件包含在你的项目中。 最简单的方法是将其路径保留在`files`数组中。
 
-## Performance optimizations
+## 性能优化
 
-Under the hood, Hardhat uses [ts-node](https://www.npmjs.com/package/ts-node) to support TypeScript. By default, it
-will recompile and type-check everything on every run. Depending on your project's size, this can get slow.
+在底层，Hardhat使用[ts-node](https://www.npmjs.com/package/ts-node)来支持TypeScript。 默认情况下，它将在每次运行时重新编译并进行类型检查。 根据你项目的大小，这个过程可能会变得很慢。
 
-You can make Hardhat run faster by preventing `ts-node` from type-checking your project. This is done by setting the
-`TS_NODE_TRANSPILE_ONLY` en variable to `1`. 
+你可以通过防止`ts-node`对你的项目进行类型检查来使Hardhat运行得更快。可以通过把
+`TS_NODE_TRANSPILE_ONLY`环境变量设置为`1`就可以实现。
 
-For example, you can run your TypeScript-based tests faster like this `TS_NODE_TRANSPILE_ONLY=1 npx hardhat test`.
+例如，你可以像这样更快地运行基于TypeScript的测试`TS_NODE_TRANSPILE_ONLY=1 npx hardhat test`。
 
-## Running your tests and scripts directly with `ts-node`
 
-When running Hardhat scripts without the CLI, you need to use `ts-node`'s [`--files` flag](https://www.npmjs.com/package/ts-node#help-my-types-are-missing).
+## 直接用`ts-node`运行测试和脚本
 
-This can also be enabled with `TS_NODE_FILES=true`.
+当不使用CLI运行Hardhat脚本时，你需要使用`ts-node`的[`--files`标志](https://www.npmjs.com/package/ts-node#help-my-types-are-missing)。
 
-[hardhat runtime environment]: ../advanced/hardhat-runtime-environment.md
+也可以用`TS_NODE_FILES=true`启用。
