@@ -1,17 +1,18 @@
 # 在Visual Studio代码上运行测试
 
-You can run your tests from [Visual Studio Code](https://code.visualstudio.com)
-by using one of its Mocha integration extensions. We recommend using [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter).
 
-To use Mocha Test Explorer, you need to install it and follow these instructions.
+通过使用Mocha集成插件，你可以从[Visual Studio Code](https://code.visualstudio.com)运行测试，我们推荐使用[Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter)。
 
-Install Mocha locally by running this:
+要使用Mocha Test Explorer，你需要按照以下说明安装它。
+
+通过运行这个命令在本地安装Mocha:
+
 
 ```
 npm install --save-dev mocha
 ```
 
-Then, create a file named `.mocharc.json` in your project's root directory with the following contents:
+然后，在项目根目录下创建一个名为`.mocharc.json`的文件，内容如下:
 
 ```json
 {
@@ -20,14 +21,16 @@ Then, create a file named `.mocharc.json` in your project's root directory with 
 }
 ```
 
-Finally, you can set a shortcut for this VS Code command `test-explorer.run-test-at-cursor`, and you
-will be able to run the test you are currently editing with it.
+最后，你可以为这个VS Code命令`test-explorer.run-test-at-cursor`设置一个快捷键，你会发现能够对当前正在编辑的文件运行测试。
 
-## Running TypeScript test
 
-Running tests written in TypeScript from [Visual Studio Code](https://code.visualstudio.com) requires two extra steps.
+## 运行TypeScript测试
 
-First, you have to change your `.mocharc.json` to this: 
+
+从[Visual Studio Code](https://code.visualstudio.com)运行用TypeScript编写的测试需要两个额外的步骤。
+
+首先，你必须把`.mocharc.json`改成这样:
+
 
 ```json{2}
 {
@@ -36,7 +39,6 @@ First, you have to change your `.mocharc.json` to this:
 }
 ```
 
-Then, you have to set the vscode option `"mochaExplorer.files"` to `"test/**/*.{j,t}s"`.
+然后，需将vscode选项`"mochaExplorer.files"`设置为`"test/**/*.{j,t}s"`。
 
-For any help or feedback you may have, you can find us in the [Hardhat Support Discord server](https://hardhat.org/discord).
-https://hardhat.org/discord
+如果需要任何帮助或反馈，你可以在[Hardhat Support Discord服务器](https://hardhat.org/discord)找到我们。

@@ -1,12 +1,13 @@
-# Creating a task
+# 创建任务
 
-This guide will explore the creation of tasks in Hardhat, which are the core component used for automation.
 
-A task is a JavaScript async function with some associated metadata. This metadata is used by Hardhat to automate some things for you. Arguments parsing, validation, and help messages are taken care of.
+本指南将探讨在Hardhat中创建任务，这是用于自动化的核心组件。
 
-Everything you can do in Hardhat is defined as a task. The default actions that come out of the box are built-in tasks and they are implemented using the same APIs that are available to you as a user.
+任务是一个带有相关元数据的JavaScript异步函数。 这些元数据被Hardhat用来自动化处理一些事情。如：参数解析、验证和帮助信息都会被处理。
 
-To see the currently available tasks in your project, run `npx hardhat`:
+在Hardhat中，能做的一切都被定义为任务。开箱即用的默认动作是内置任务，它们也是使用与用户相同的API来实现的。
+
+要查看项目中当前可用的任务，运行`npx hardhat`:
 
 ```
 $ npx hardhat
@@ -42,27 +43,27 @@ AVAILABLE TASKS:
 To get help for a specific task run: npx hardhat help [task]
 ```
 
-For some ideas, you could create a task to reset the state of a development environment, interact with your contracts or package your project.
+你也可以创建一个任务来重新设置开发环境的状态、与你的合约进行交互或打包项目。
 
-Let’s go through the process of creating one to interact with a smart contract.
+我们将展示创建任务的完整过程，这个任务将会与智能合约交互。
 
-Tasks in Hardhat are asynchronous JavaScript functions that get access to the [Hardhat Runtime Environment](../advanced/hardhat-runtime-environment.md), through which you get access to the configuration, parameters, programmatic access to other tasks and any objects plugins may have injected.
+Hardhat中的任务是异步JavaScript函数，它可以访问[Hardhat运行时环境（HRE）](../advanced/hardhat-runtime-environment.md)，通过HRE你可以访问配置、参数、其他的任务程序以及插件可能注入的任何对象。
 
-For our example we will use Web3.js to interact with our contracts, so we will install the [Web3.js plugin](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-web3), which injects a Web3.js instance into the Hardhat environment:
+在我们的例子中，我们将使用Web3.js与合约进行交互，所以我们将安装[Web3.js插件](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-web3)，它会将Web3.js实例注入Hardhat环境中。
 
 ```
 npm install --save-dev @nomiclabs/hardhat-web3 web3
 ```
 
-_Take a look at the [list of Hardhat plugins](../plugins/README.md) to see other available libraries._
+_看看[Hardhat插件列表](../plugins/README.md) 还有什么其他可用的库._
 
-Task creation code can go in `hardhat.config.js`, or whatever your configuration file is called. It’s a good place to create simple tasks. If your task is more complex, it's also perfectly valid to split the code into several files and `require` from the configuration file.
+任务创建代码可以放在`hardhat.config.js`中(或者其他名字的配置文件)。 这是一个创建简单任务的好地方。 如果你的任务比较复杂，也完全可以把代码分成几个文件，从配置文件中用`require`引入。
 
-_If you’re writing a Hardhat plugin that adds a task, they can also be created from a separate npm package. Learn more about creating tasks through plugins in our [Building plugins section](../advanced/building-plugins.md)._
+_如果你正在编写一个Hardhat插件来添加任务，它们也可以在一个单独的npm包中创建。了解更多关于通过插件创建任务的信息，请查看我们的[构建插件部分](../advanced/building-plugins.md)._。
 
-**The configuration file is always executed on startup before anything else happens.** It's good to keep this in mind. We will load the Web3.js plugin and add our task creation code to it.
+**配置文件总是在启动时执行，然后才执行其他事情**，最好记住这一点。 我们将加载Web3.js插件，并添加任务创建代码。
 
-For this tutorial, we're going to create a task to get an account’s balance from the terminal. You can do this with the Hardhat’s config DSL, which is available in the global scope of `hardhat.config.js`:
+在本教程中，我们将创建一个任务来在终端获取账户的余额。你可以通过Hardhat的config DSL来实现，其可以在`hardhat.config.js`的全局范围内使用:
 
 ```js
 require("@nomiclabs/hardhat-web3");
@@ -73,7 +74,7 @@ task("balance", "Prints an account's balance")
 module.exports = {};
 ```
 
-After saving the file, you should already be able to see the task in Hardhat:
+保存文件后，你应该已经可以在Hardhat中看到任务了:
 
 ```
 $ npx hardhat
@@ -105,7 +106,8 @@ AVAILABLE TASKS:
 To get help for a specific task run: npx hardhat help [task]
 ```
 
-Now let’s implement the functionality we want. We need to get the account address from the user. We can do this by adding a parameter to our task:
+现在来实现我们想要的功能。我们需要从用户那里获得账户地址，这可以通过给任务添加一个参数来实现。
+
 
 ```js
 require("@nomiclabs/hardhat-web3");
@@ -117,7 +119,7 @@ task("balance", "Prints an account's balance")
 module.exports = {};
 ```
 
-When you add a parameter to a task, Hardhat will handle its help messages for you:
+当你为任务添加参数时，Hardhat将为你处理其帮助信息:
 
 ```
 $ npx hardhat help balance
@@ -134,7 +136,7 @@ balance: Prints an account's balance
 For global options help run: hardhat help
 ```
 
-Let’s now get the account’s balance. The [Hardhat Runtime Environment](../advanced/hardhat-runtime-environment.md) will be available in the global scope. By using Hardhat’s [Web3.js plugin](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-web3) we get access to a Web3.js instance:
+现在我们来看看账户的余额。 [Hardhat 运行时环境](../advanced/hardhat-runtime-environment.md)在全局范围内可用。通过使用Hardhat的[Web3.js插件](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-web3)，可以访问Web3.js实例：
 
 ```js
 require("@nomiclabs/hardhat-web3");
@@ -151,22 +153,22 @@ task("balance", "Prints an account's balance")
 module.exports = {};
 ```
 
-Finally, we can run it:
+最后，我们可以运行这个任务:
 
 ```
 $ npx hardhat balance --account 0x080f632fb4211cfc19d1e795f3f3109f221d44c9
 100 ETH
 ```
 
-And there you have it. Your first fully functional Hardhat task, allowing you to interact with the Ethereum blockchain in an easy way.
+就这样简单，实现了你的第一个全功能的Hardhat任务，让你以简单的方式与以太坊区块链交互。
 
-## Advanced usage
+## 高级用法
 
-You can create your own tasks in your `hardhat.config.js` file. The Config DSL will be available in the global environment, with functions for defining tasks. You can also import the DSL with `require("hardhat/config")` if you prefer to keep things explicit, and take advantage of your editor's autocomplete.
+你可以在`hardhat.config.js`文件中创建自己的任务。 Config DSL在全局环境中可用，具有定义任务的功能。 如果你喜欢保持内容明确，并利用编辑器的自动补全功能，你也可以用`require("hardhat/config")`导入DSL。
 
-Creating a task is done by calling the `task` function. It will return a `TaskDefinition` object, which can be used to define the task's parameters.
+创建任务是通过调用`task`函数来完成的。它将返回一个`TaskDefinition`对象，可以用来定义任务的参数。
 
-The simplest task you can define is
+你可以定义的最简单的任务是
 
 ```js
 task("hello", "Prints 'Hello, World!'", async function(taskArguments, hre, runSuper) {
@@ -174,15 +176,16 @@ task("hello", "Prints 'Hello, World!'", async function(taskArguments, hre, runSu
 });
 ```
 
-`task`'s first argument is the task name. The second one is its description, which is used for printing help messages in the CLI. The third one is an async function that receives the following arguments:
+`task`的第一个参数是任务名称。第二个是它的描述，用于在CLI中打印帮助信息。第三个是一个异步函数，它接收以下参数:
 
-- `taskArguments` is an object with the parsed CLI arguments of the task. In this case, it's an empty object.
+- `taskArguments` 是一个包含任务的CLI解析的参数对象。在此例下，它是一个空对象。
 
-- `hre` is the [Hardhat Runtime Environment](../advanced/hardhat-runtime-environment.md).
+- `hre` 是[Hardhat 运行时环境](../advanced/hardhat-runtime-environment.md).
 
-- `runSuper` is only relevant if you are overriding an existing task, which we'll learn about next. Its purpose is to let you run the original task's action.
+- `runSuper` 只有在覆盖现有的任务时才有意义，这一点我们接下来会学习。其目的是让你运行原来任务的动作。
 
-Defining the action's arguments is optional. The Hardhat Runtime Environment and `runSuper` will also be available in the global scope. We can rewrite our "hello" task this way:
+定义动作的参数是可选的。 Hardhat运行时环境和`runSuper`也将在全局范围内可用。我们可以这样重写 `hello `任务：
+
 
 ```js
 task("hello", "Prints 'Hello, World!'", async () => {
@@ -190,11 +193,11 @@ task("hello", "Prints 'Hello, World!'", async () => {
 });
 ```
 
-### Tasks' actions requirements
+### 任务的action要求
 
-The only requirement for writing a task is that the `Promise` returned by its action must not resolve before every async process it started is finished.
+编写任务的唯一要求是，其action返回的`Promise`在它启动的每个async进程结束之前不能解析出结果。
 
-This is an example of a task whose action doesn't meet this requirement.
+这是一个action不符合这个要求的任务的示例:
 
 ```js
 task("BAD", "This task is broken", async () => {
@@ -206,7 +209,7 @@ task("BAD", "This task is broken", async () => {
 });
 ```
 
-This other task uses a `Promise` to wait for the timeout to fire.
+这另一个任务使用`Promise` 等待超时触发。
 
 ```js
 task("delayed-hello", "Prints 'Hello, World!' after a second", async () => {
@@ -219,13 +222,15 @@ task("delayed-hello", "Prints 'Hello, World!' after a second", async () => {
 });
 ```
 
-Manually creating a `Promise` can look challenging, but you don't have to do that if you stick to `async`/`await` and `Promise`-based APIs. For example, you can use the npm package [`delay`](https://www.npmjs.com/package/delay) for a promisified version of `setTimeout`.
+手动创建一个 `承诺 `可能看起来很有挑战，但如果你使用 `async`/`await`和基于`Promise`的API，你就不必这样做。 例如，你可以使用npm包[`delay`](https://www.npmjs.com/package/delay)来获得`setTimeout`的`Promise`版本。
 
-### Defining parameters
 
-Hardhat tasks can receive `--named` parameters with a value, `--flags`, positional and variadic parameters. Variadic parameters act like JavaScript's rest parameters. The Config DSL `task` function returns an object with methods to define all of them. Once defined, Hardhat takes control of parsing parameters, validating them, and printing help messages.
+### 定义参数
 
-Adding an optional parameter to the `hello` task can look like this:
+Hardhat任务可以接收`--named`参数的值、`--flags`、位置参数和可变参数。 可变参数的作用就像JavaScript的rest参数一样。 Config DSL `task`函数返回一个对象，其中包含定义所有对象的方法。 一旦定义，Hardhat就会控制解析参数、验证参数和打印帮助信息。
+
+在 `hello` 任务中添加一个可选的参数，可以像这样:
+
 
 ```js
 task("hello", "Prints a greeting'")
@@ -233,24 +238,26 @@ task("hello", "Prints a greeting'")
   .setAction(async ({ greeting }) => console.log(greeting));
 ```
 
-And would be run with `npx hardhat hello --greeting Hola`.
+并将用`npx hardhat hello --greeting Hola`运行。
 
-#### Positional parameters restrictions
+#### 位置参数限制
 
-Positional and variadic parameters don't have to be named, and have the usual restrictions of a programming language:
+位置参数和可变参数不必命名，具有编程语言的常见限制:
 
-- No positional parameter can follow a variadic one
-- Required/mandatory parameters can't follow an optional one.
+- 位置参数都不能跟在可变参数后面
+- 必需/强制参数不能跟在可变参数后面。
 
-Failing to follow these restrictions will result in an exception being thrown when loading Hardhat.
+如果不遵守这些限制，将导致在加载Hardhat时抛出异常。
 
-#### Type validations
 
-Hardhat takes care of validating and parsing the values provided for each parameter. You can declare the type of a parameter, and Hardhat will get the CLI strings and convert them into your desired type. If this conversion fails, it will print an error message explaining why.
+#### 类型验证
 
-A number of types are available in the Config DSL through a `types` object. This object is injected into the global scope before processing your `hardhat.config.js`, but you can also import it explicitly with `const { types } = require("hardhat/config")` and take advantage of your editor's autocomplete.
+Hardhat负责验证和解析为每个参数提供的值。 你可以声明一个参数的类型，Hardhat会获取CLI字符串并将其转换为你想要的类型。 如果这次转换失败，它将打印一条错误信息解释原因。
 
-An example of a task defining a type for one of its parameters is
+在Config DSL中，通过`types`对象，可以使用许多类型。 这个对象在处理`hardhat.config.js`之前就会被注入到全局作用域内，但你也可以用`const { types } = require("hardhat/config")`显式导入它，并利用编辑器的自动补全功能。
+
+为任务参数定义类型的示例：
+
 
 ```js
 task("hello", "Prints 'Hello' multiple times")
@@ -262,39 +269,43 @@ task("hello", "Prints 'Hello' multiple times")
   });
 ```
 
-Calling it with `npx hardhat hello --times notanumber` will result in an error.
+如果用 `npx hardhat hello --times notanumber `调用，将提示错误。
 
-### Overriding tasks
 
-Defining a task with the same name than an existing one will override it. This is useful to change or extend the behavior of built-in and plugin-provided tasks.
+### 覆盖任务
 
-Task overriding works very similarly to overriding methods when extending a class. You can set your own action, which can call the previous one. The only restriction when overriding tasks, is that you can't add or remove parameters.
+定义一个与现有任务名称相同的任务将覆盖(override)它。这对于改变或扩展内置和插件提供的任务的行为很有用。
 
-Task override order is important since actions can only call the immediately previous definition, using the `runSuper` function.
+任务覆盖的工作原理与扩展类时的重载方法非常相似。你可以设置自己的动作，可以调用之前的动作。 覆盖任务时，唯一的限制是不能添加或删除参数。
 
-Overriding built-in tasks is a great way to customize and extend Hardhat. To know which tasks to override, take a look at [src/builtin-tasks](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-core/src/builtin-tasks).
+任务覆盖顺序是很重要的，因为使用`runSuper`函数，动作只能调用之前紧接的定义。
 
-#### The `runSuper` function
+覆盖内置任务是定制和扩展Hardhat的好方法。 要知道哪些任务可以覆盖，请查看[src/builtin-tasks](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-core/src/builtin-tasks)。
 
-`runSuper` is a function available to override task's actions. It can be received as the third argument of the task or used directly from the global object.
 
-This function works like [JavaScript's `super` keyword](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super), it calls the task's previously defined action.
 
-If the task isn't overriding a previous task definition calling `runSuper` will result in an error. To check if calling it won't fail, you can use the `boolean` field `runSuper.isDefined`.
+#### `runSuper` 函数
 
-The `runSuper` function receives a single optional argument: an object with the task arguments. If this argument isn't provided, the same task arguments received by the action calling it will be used.
+`runSuper` 是一个可用于覆盖任务动作的函数。 它可以作为任务的第三个参数调用，也可以直接从全局对象中使用。
 
-### Subtasks
+这个函数的作用就像[JavaScript的`super`关键字](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super)一样，它调用任务之前定义的动作。
 
-Creating tasks with lots of logic makes it hard to extend or customize them. Making multiple small and focused tasks that call each other is better to allow for extension. If you design your tasks in this way, users that want to change only a small aspect of them can override one of your subtasks.
+如果任务没有覆盖之前定义的任务，调用`runSuper`将导致错误。 要检查调用它是否不会失败，可以使用`boolean`字段`runSuper.isDefined`来判断。
 
-For example, the `compile` task is implemented as a pipeline of several tasks. It just calls subtasks like `compile:get-source-paths`, `compile:get-dependency-graph`, and `compile:build-artifacts`. We recommend prefixing intermediate tasks with their main task and a colon.
+`runSuper` 函数接收一个可选参数：任务参数对象。 如果没有提供这个参数，将使把调用动作的任务参数传递给它。
 
-To avoid help messages getting cluttered with lots of intermediate tasks, you can define those using the `subtask` config DSL function. The `subtask` function works almost exactly like `task`. The only difference is that tasks defined with it won't be included in help messages.
 
-To run a subtask, or any task whatsoever, you can use the `run` function. It takes two arguments: the name of the task to be run, and an object with its arguments.
+### 子任务
 
-This is an example of a task running a subtask:
+创建具有大量逻辑的任务，将使扩展或定制它们变得很难。而多个小而集中的任务，更好互相调用，以便于扩展。 如果你以这种方式设计任务，用户如果只想改变其中的一个小部分，可以覆盖你的一个子任务。
+
+例如，`compile`任务就是通过若干任务的管道来实现的。它只是调用了`compile:get-source-paths`、`compile:get-dependency-graph`和`compile:build-artifacts`等子任务。 我们建议在中间任务前加上主任务和冒号作为前缀。
+
+为了避免帮助信息被大量的中间任务所干扰，你可以使用`subtask`配置DSL函数来定义这些任务。 `subtask`函数的工作原理几乎和`task`完全一样。 唯一不同的是，用它定义的任务不会被包含在帮助信息中。
+
+你可以使用`run`函数运行一个子任务或任何任务。`run`函数需要两个参数：要运行的任务名称以及参数对象。
+
+这是一个任务运行子任务的例子:
 
 ```js
 task("hello-world", "Prints a hello world message")
@@ -309,5 +320,3 @@ subtask("print", "Prints a message")
   });
 ``` 
 
-For any questions or feedback you may have, you can find us in the [Hardhat Discord
-server](https://hardhat.org/discord).

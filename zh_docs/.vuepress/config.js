@@ -12,7 +12,7 @@ module.exports = {
   title:
     "Hardhat | 为专业人士开发的以太坊开发环境 by Nomic Labs",
   description:
-    "Hardhat is an Ethereum development environment. Compile your contracts and run them on a development network. Get Solidity stack traces, console.log and more.",
+    "Hardhat 是一个以太坊开发环境：编译合约并在开发网络上运行、获取Solidity的调用堆栈、console.log等。",
   themeConfig: {
     logo: "/logo.svg",
     nav: [
@@ -93,15 +93,15 @@ module.exports = {
             ["/guides/scripts.md", "编写脚本", 0],
             ["/guides/mainnet-forking.md", "Fork 主网", 0],
             ["/guides/hardhat-console.md", "使用Hardhat 控制台", 0],
-            ["/guides/create-task.md", "Creating a task", 0],
+            ["/guides/create-task.md", "创建人物", 0],
             ["/guides/ganache-tests.md", "用Ganache运行测试", 0],
-            ["/guides/vscode-tests.md", "Running tests on VS Code", 0],
+            ["/guides/vscode-tests.md", "在VS Code上运行测试", 0],
             ["/guides/typescript.md", "TypeScript 支持", 0],
             ["/guides/shorthand.md", "缩写 (hh) 和自动补全", 0],
           ],
         },
         {
-          title: "Advanced",
+          title: "高级",
           collapsable: false,
           children: [
             [
@@ -186,7 +186,7 @@ module.exports = {
       "meta",
       {
         name: "twitter:title",
-        content: "Ethereum development environment for professionals",
+        content: "为专业人士开发的以太坊开发环境",
       },
     ],
     [
