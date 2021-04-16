@@ -15,8 +15,7 @@
       <div class="copy">
         <div class="text">
           <h2>
-            <span class="hardhat">Hardhat</span> is a task runner for Ethereum
-            smart contract developers.
+            <span class="hardhat">Hardhat</span> 为以太坊智能合约开发者提供的任务运行器
           </h2>
           <p>
             It works with all developer tools, rather than replace any specific
@@ -28,7 +27,7 @@
         <img src="/mascots.svg" alt="hero" class="mascots" />
         <div class="cta cta1">
           <router-link class="action-button" to="/getting-started/"
-            >Get Started</router-link
+            >开始使用</router-link
           >
         </div>
       </div>
@@ -41,7 +40,7 @@
 
       <div class="cta2">
         <router-link class="action-button" to="/getting-started/"
-          >Get Started</router-link
+          >开始使用</router-link
         >
       </div>
       <div class="usedby">
@@ -147,7 +146,7 @@
       </div>
 
       <router-link to="/guides/truffle-migration.html" class="migrate"
-        >Migrate from Truffle now</router-link
+        >从 Truffle 迁移</router-link
       >
     </div>
   </div>

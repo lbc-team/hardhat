@@ -105,13 +105,13 @@ module.exports = {
           collapsable: false,
           children: [
             [
-              "/advanced/hardhat-runtime-environment.html",
+              "/advanced/hardhat-runtime-environment.md",
               "Hardhat Runtime Environment (HRE)",
               0,
             ],
-            ["/advanced/building-plugins.html", "Building plugins", 0],
+            ["/advanced/building-plugins.md", "Building plugins", 0],
             [
-              "/advanced/migrating-buidler-plugin.html",
+              "/advanced/migrating-buidler-plugin.md",
               "Migrating a Buidler plugin",
               0,
             ],
@@ -121,8 +121,8 @@ module.exports = {
           title: "Troubleshooting",
           collapsable: false,
           children: [
-            ["/troubleshooting/verbose-logging.html", "Verbose logging", 0],
-            ["/troubleshooting/common-problems.html", "Common problems", 0],
+            ["/troubleshooting/verbose-logging.md", "Verbose logging", 0],
+            ["/troubleshooting/common-problems.md", "Common problems", 0],
             ["/errors/", "Error codes", 0],
           ],
         },
@@ -130,10 +130,10 @@ module.exports = {
           title: "Reference",
           collapsable: false,
           children: [
-            ["/reference/solidity-support.html", "Solidity support", 0],
+            ["/reference/solidity-support.md", "Solidity support", 0],
           ],
         },
-        "/buidler-documentation.html",
+        "/buidler-documentation.md",
         {
           title: "Plugins",
           collapsable: false,
