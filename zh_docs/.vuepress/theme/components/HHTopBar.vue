@@ -1,7 +1,7 @@
 <template lang="pug">
 section.top-bar
   a(
-    href="https://medium.com/nomic-labs-blog/better-solidity-debugging-console-log-is-finally-here-fc66c54f2c4a",
+    href="https://github.com/lbc-team/hardhat",
     target="_blank",
     rel="noopener noreferrer"
   )
@@ -11,21 +11,14 @@ section.top-bar
           span <
           span <
           span <
-          span <
-          span <
-          span <
             |
             |
         span.top-text 
-          a(:href="postUrl" class="top-bar-link" target="_blank" rel="noopener noreferrer") Buidler is now Hardhat: Learn more about the latest release and rebrand 
-            span here
+          a(:href="postUrl" class="top-bar-link" target="_blank" rel="noopener noreferrer") 欢迎参与 Hardhat开发者文档中文版本翻译 
         span.colored.reverse.animation-6chars
           span 
             |
             | >
-          span >
-          span >
-          span >
           span >
           span >
     .top-bar-content.mobile-top-bar

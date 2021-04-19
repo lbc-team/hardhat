@@ -31,6 +31,8 @@
               'max-width': linksWrapMaxWidth + 'px',
             }"
           >
+            <AlgoliaSearchBox v-if="isAlgoliaSearch" :options="algolia" />
+            <SearchBox v-else-if="$page.frontmatter.search !== false" />
             <NavLinks class="can-hide" />
 
             <ul class="social-links social-links-non-landing">
@@ -117,7 +119,17 @@ export default {
           name: "Github",
           link: `https://github.com/${repo}`,
           img: GithubLogo,
-        }
+        },
+        {
+          name: "Twitter",
+          link: "https://twitter.com/HardhatHQ",
+          img: TwitterLogo,
+        },
+        {
+          name: "Discord",
+          link: "https://hardhat.org/discord",
+          img: DiscordLogo,
+        },
       ];
     },
   },

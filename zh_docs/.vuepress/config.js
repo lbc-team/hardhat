@@ -22,7 +22,7 @@ module.exports = {
       // { text: "Hardhat Network", link: "/hardhat-network/" },
       { text: "插件", link: "/plugins/" },
       { text: "文档", link: "/getting-started/" },
-      { text: "Hardhat入门教程", link: "/tutorial/" },
+      { text: "入门教程", link: "/tutorial/" },
     ],
     lastUpdated: true,
     repo: "nomiclabs/hardhat",
@@ -95,11 +95,11 @@ module.exports = {
             ["/guides/scripts.md", "编写脚本", 0],
             ["/guides/mainnet-forking.md", "Fork 主网", 0],
             ["/guides/hardhat-console.md", "使用Hardhat 控制台", 0],
-            ["/guides/create-task.md", "创建人物", 0],
+            ["/guides/create-task.md", "创建任务", 0],
             ["/guides/ganache-tests.md", "用Ganache运行测试", 0],
             ["/guides/vscode-tests.md", "在VS Code上运行测试", 0],
             ["/guides/typescript.md", "TypeScript 支持", 0],
-            ["/guides/shorthand.md", "缩写 (hh) 和自动补全", 0],
+            ["/guides/shorthand.md", "缩写(hh)和自动补全", 0],
           ],
         },
         {
@@ -129,7 +129,7 @@ module.exports = {
           ],
         },
         {
-          title: "Reference",
+          title: "参考引用",
           collapsable: false,
           children: [
             ["/reference/solidity-support.md", "Solidity support", 0],
@@ -137,14 +137,14 @@ module.exports = {
         },
         "/buidler-documentation.md",
         {
-          title: "Plugins",
+          title: "插件",
           collapsable: false,
           children: pluginsChildren,
         },
       ],
     },
     algolia: {
-      apiKey: '70d2567dd1257c8a53bbb823a0085f02',
+      apiKey: '306d088935cf0c8b06c6a056c72a5dc9',
       indexName: 'hardhat'
     }
   },
