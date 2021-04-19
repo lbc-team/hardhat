@@ -9,6 +9,7 @@ plugins.forEach((plugin) => {
 });
 
 module.exports = {
+  base: "/docs/hardhat/",
   title:
     "Hardhat | 为专业人士开发的以太坊开发环境 by Nomic Labs",
   description:
@@ -16,11 +17,12 @@ module.exports = {
   themeConfig: {
     logo: "/logo.svg",
     nav: [
-      { text: "Home", link: "/" },
+      { text: "登链社区", link: "/" },
+      { text: "问答", link: "https://learnblockchain.cn/questions" },
       // { text: "Hardhat Network", link: "/hardhat-network/" },
       { text: "插件", link: "/plugins/" },
       { text: "文档", link: "/getting-started/" },
-      { text: "入门教程", link: "/tutorial/" },
+      { text: "Hardhat入门教程", link: "/tutorial/" },
     ],
     lastUpdated: true,
     repo: "nomiclabs/hardhat",
