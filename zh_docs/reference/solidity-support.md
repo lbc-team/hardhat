@@ -1,33 +1,29 @@
-# Solidity support
+# Solidity 支持
 
-Hardhat Network has first-class Solidity support. It always knows which smart contracts are
-being run, what they do exactly, and why they fail, making smart contracts development easier.
+Hardhat 内置网络（Hardhat Network）拥有一流的Solidity支持。它总是知道哪些智能合约正在运行，它们具体做什么，以及它们为什么会失败，这些使开发智能合约更容易。
 
-To do this kind of things, Hardhat integrates very deeply with Solidity, which means that new
-versions of it aren't automatically supported.
+为了这些支持，Hardhat与Solidity进行了深入整合，这意味着新的Solidity版本并不是自动支持的。
 
-This section of the docs explains which versions are supported, and what happens if you use
-an unsupported one.
+本文档解释了目前支持哪些Solidity版本，以及如果你使用不支持的版本会发生什么。
 
-## Supported versions
+## 支持的版本
 
-These are the versions of Solidity that you can expect to fully work with Hardhat:
+这些是与Hardhat完全兼容的Solidity版本：
 
-- Any 0.5.x version starting from 0.5.1
-- Any 0.6.x version
-- Any 0.7.x version
+- 从 0.5.1 开始的任何 0.5.x 版本
+- 任何 0.6.x 版本
+- 任何 0.7.x 版本
 
-We recommend against using Hardhat with newer, unsupported versions of Solidity, but if
-you need to do it, please read on.
+我们不太建议在较新的、不支持的 Solidity 版本中使用 Hardhat，但如果你需要，请继续阅读。
 
-### Using an unsupported version
 
-When running an unsupported version of Solidity our integration with it may not work, or
-do it incorrectly.
+### 使用不支持的版本
 
-This can mean that Solidity stack traces may stop working, be incorrect, or incomplete. It
-can also mean that `console.log` may stop working.
+当运行一个不支持的 Solidity 版本时，Hardhat集成的功能可能不起作用，或者运行不正确。
 
-Despite those things possibly breaking, the actual compilation and execution of your smart 
-contracts won't be affected. You can still trust your test results or deploy smart contracts.
-You will just get less help from Hardhat when doing so.
+如 Solidity 堆栈跟踪可能停止工作、不正确或不完整。也可能是 `console.log` 停止工作。
+
+尽管这些可能被破坏，但智能合约的实际编译和执行不会受到影响。
+合约的实际编译和执行不会受到影响。你仍然可以相信测试结果或部署的智能合约。
+只是在此时，你从Hardhat得到的帮助会减少。
+

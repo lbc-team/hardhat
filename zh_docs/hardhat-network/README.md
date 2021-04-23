@@ -1,51 +1,53 @@
 # Hardhat Network
 
-Hardhat comes built-in with Hardhat Network, a local Ethereum network designed for development. It allows you to deploy your contracts, run your tests and debug your code.
+Hardhat内置了Hardhat Network，这是一个为开发而设计的本地以太坊网络。它允许你部署合约，运行测试和调试代码。
 
-## How does it work?
 
-- It mines a block with each transaction that it receives, in order and with no delay.
-- It's backed by the `@ethereumjs/vm` EVM implementation, the same one used by ganache, Remix and Ethereum Studio.
-- It supports the following hardforks:
+## Hardhat Network是如何工作的？
+
+- 它在收到每笔交易后，立即按顺序出块，没有任何延迟。
+- 底层是基于 `@ethereumjs/vm` EVM 实现, 与ganache、Remix和Ethereum Studio 使用的相同EVM。
+- 支持以下的硬分叉:
   - byzantium
   - constantinople
   - petersburg
   - istanbul
   - muirGlacier
 
-## How can I use it?
+## 如何使用它?
 
-- Hardhat will always spin up an instance on startup when `defaultNetwork` is empty or set to `hardhat`. It's the default behavior.
-- It can be used to run tests, in the console, scripts, and tasks.
-- Plugins (ethers.js, web3.js, Waffle, Truffle, etc) connect directly to the provider.
-- There's no need to make any changes to your tests or scripts.
-- It's simply another network and it can be used with `--network`.
+- 当 `defaultNetwork `为空或设置为 `hardhat `时，则Hardhat 默认在启动运行实例。
+- 它以用来运行测试、以及在控制台、脚本和任务中使用它。
+- 插件（ethers.js, web3.js, Waffle, Truffle等）会直接连接到其提供者。
+- T不需要对你的测试或脚本做任何修改。
+- 它只是另一个网络，它可以与`--network`一起使用。
 
-## Connecting to Hardhat Network from wallets and other software
+## 从钱包和其他软件连接到Hardhat网络
 
-Hardhat Network can run in a standalone fashion so that external clients can connect to it. This could be MetaMask, your Dapp front-end, or a script. To run Hardhat Network in this way, run:
+Hardhat Network可以以独立的方式运行，以便外部客户端可以连接到它。这可以是MetaMask、Dapp前端，或一个脚本。要以这种方式运行Hardhat Network，请运行:
 
 ```
 npx hardhat node
 ```
 
-It will start Hardhat Network, and expose it as a JSON-RPC and WebSocket server.
+它将启动Hardhat Network，并作为一个公开的JSON-RPC和WebSocket服务器。
 
-Then, just connect your wallet or application to `http://localhost:8545`.
+然后，只要将钱包或应用程序连接到`http://localhost:8545` 。
 
-If you want to connect Hardhat to this node, you only need to run it using `--network localhost`.
+如果你想把Hardhat连接到这个节点，你只需要使用`--network localhost`来运行命令。
 
-## Solidity stack traces
 
-Hardhat Network has first-class Solidity support. It always knows which
-smart contracts are being run, what they do exactly and why they fail.
+## Solidity 堆栈跟踪
 
-If a transaction or call fails, Hardhat Network will throw an exception.
-This exception will have a combined JavaScript and Solidity stack
-trace: stack traces that start in JavaScript/TypeScript up to your
-call to the contract, and continue with the full Solidity call stack.
+Hardhat Network 拥有一流的Solidity支持。它总是知道哪些正在运行的智能合约，具体做什么，以及为什么失败。
 
-This is an example of a Hardhat Network exception using `TruffleContract`:
+如果一个交易或调用失败，Hardhat Network将抛出一个异常。
+这个异常将组合 JavaScript 和 Solidity 栈追踪：从 JavaScript/TypeScript 开始的堆栈追踪，直到你
+到合约的调用，并继续完整的 Solidity 调用堆栈。
+
+这是一个使用 `TruffleContract` 的Hardhat Network异常的示例:
+
+
 
 ```
 Error: Transaction reverted: function selector was not recognized and there's no fallback function
@@ -58,51 +60,50 @@ Error: Transaction reverted: function selector was not recognized and there's no
   at Context.<anonymous> (test/token/ERC721/ERC721.behavior.js:321:26)
 ```
 
-The last two lines correspond to the JavaScript test code that executed a
-failing transaction. The rest is the Solidity stack trace.
-This way you know exactly why your tests aren't passing.
+最后两行对应的是执行失败交易的JavaScript测试代码。
+其余的是 Solidity 堆栈跟踪。
+这样你就能清楚地知道为什么测试没有通过。
 
-## Automatic error messages
 
-Hardhat Network always knows why your transaction or call failed, and uses this
-information to make debugging your contracts easier.
+## 自动错误信息
 
-When a transaction fails without a reason, Hardhat Network will create a clear
-error message in the following cases:
+Hardhat Network 总是知道你的交易或调用失败的原因，利用这些信息调试合约将更容易。
 
-- Calling a non-payable function with ETH
+当一个交易无故失败时，Hardhat Network会在以下情况下创建一个明确的错误信息：
 
-- Sending ETH to a contract without a payable fallback or receive function
+- 附加ETH调用一个非 payable 函数
 
-- Calling a non-existent function when there's no fallback function
+- 发送ETH到一个没有可支付的回退或接收功能的合约上
 
-- Calling a function with incorrect parameters
+- 在没有回退函数的情况下调用一个不存在的函数
 
-- Calling an external function that doesn't return the right amount of data
+- 用不正确的参数调用一个函数
 
-- Calling an external function on a non-contract account
+- 调用一个没有返回正确参数数量的外部函数
 
-- Failing to execute an external call because of its parameters (e.g. trying to send too much ETH)
+- 在一个非合约账户上调用一个外部函数
 
-- Calling a library without `DELEGATECALL`
+- 由于外部调用的参数而无法执行（例如发送过多的ETH）。
 
-- Incorrectly calling a precompiled contract
+- 没有使用 `DELEGATECALL` 调用库
 
-- Trying to deploy a contract that exceeds the bytecode size limit imposed by [EIP-170](https://eips.ethereum.org/EIPS/eip-170)
+- 不正确地调用预编译的合约
+
+- 试图部署一个超过[EIP-170](https://eips.ethereum.org/EIPS/eip-170)规定的字节码大小限制的合约。
 
 ## `console.log`
 
-Hardhat Network allows you to print logging messages and contract variables calling `console.log()` from your Solidity code. You can see an example in the Sample Project. Follow the steps in [Quick Start](/getting-started/README.md#quick-start) to try it out.
+Hardhat Network 允许在 Solidity 代码中调用 `console.log()` 来打印日志信息和合约变量。你可以在样本项目中看到一个例子。按照 [快速启动](/getting-started/README.md#快速开始) 中的步骤来尝试。
 
-- You can use it in calls and transactions. It works with `view` functions, but not in `pure` ones.
-- It always works, regardless of the call or transaction failing or being successful.
-- To use it you need to import `hardhat/console.sol`.
-- You can call `console.log` with up to 4 parameters in any order of following types:
+- call调用和交易中都可以使用`console.log`。它在 `view` 函数中工作，但在 `pure` 函数中不起作用。
+- 无论调用或交易是失败还是成功，都可以进行打印。
+- 要使用它，你需要导入 `hardhat/console.sol`.
+- `console.log` 最多支持4 个参数，支持以下类型，顺序不限：
   - `uint`
   - `string`
   - `bool`
   - `address`
-- There's also the single parameter API for the types above, and additionally `bytes`, `bytes1`.. up to `bytes32`:
+- 还有上述类型的单参数API，以及额外的`bytes`, `bytes1`...直到`bytes32`类型：
   - `console.logInt(int i)`
   - `console.logUint(uint i)`
   - `console.logString(string memory s)`
@@ -113,13 +114,14 @@ Hardhat Network allows you to print logging messages and contract variables call
   - `console.logBytes2(bytes2 b)`
   - ...
   - `console.logBytes32(bytes32 b)`
-- `console.log` implements the same formatting options that can be found in Node.js' [`console.log`](https://nodejs.org/dist/latest-v12.x/docs/api/console.html#console_console_log_data_args), which in turn uses [`util.format`](https://nodejs.org/dist/latest-v12.x/docs/api/util.html#util_util_format_format_args).
-  - Example: `console.log("Changing owner from %s to %s", currentOwner, newOwner)`
-- It works with any library: ethers.js, web3.js, waffle, truffle-contract, etc.
-- `console.log` is implemented in standard Solidity and then detected in Hardhat Network. This makes its compilation work with any other tools (like Remix, Waffle or Truffle).
-- `console.log` calls can run in other networks, like mainnet, kovan, ropsten, etc. They do nothing in those networks, but spend a minimal amount of gas.
 
-## Mainnet forking
+- `console.log` 实现了与Node.js的[`console.log`](https://nodejs.org/dist/latest-v12.x/docs/api/console.html#console_console_log_data_args)相同的格式化选项，后者使用了[`util.format`](https://nodejs.org/dist/latest-v12.x/docs/api/util.html#util_util_format_format_args)。
+  - 例如: `console.log("Changing owner from %s to %s", currentOwner, newOwner)`
+- 可以和任何库一起工作： ethers.js, web3.js, waffle, truffle-contract, 等等.
+- `console.log` 是用标准的Solidity实现，然后在Hardhat Network中会检测到这些输出。这使得在任何其他工具也可以编译（如Remix、Waffle或Truffle）。
+- `console.log` 调用也可以在其他网络中运行，例如mainnet、kovan、ropsten等，但在这些网络中不起作用，但会花费少量的Gas。
+
+## 主网 forking
 
 The Hardhat Network is empty by default, except for some accounts with an initial balance. But sometimes it's more useful to have a local network that simulates the state of the mainnet. This is what forking is for.
 
