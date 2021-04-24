@@ -132,7 +132,7 @@ module.exports = {
           title: "参考引用",
           collapsable: false,
           children: [
-            ["/reference/solidity-support.md", "Solidity support", 0],
+            ["/reference/solidity-support.md", "Solidity 支持", 0],
           ],
         },
         "/buidler-documentation.md",

@@ -121,21 +121,21 @@ Hardhat Network 允许在 Solidity 代码中调用 `console.log()` 来打印日�
 - `console.log` 是用标准的Solidity实现，然后在Hardhat Network中会检测到这些输出。这使得在任何其他工具也可以编译（如Remix、Waffle或Truffle）。
 - `console.log` 调用也可以在其他网络中运行，例如mainnet、kovan、ropsten等，但在这些网络中不起作用，但会花费少量的Gas。
 
-## 主网 forking
+## 分叉主网
 
-The Hardhat Network is empty by default, except for some accounts with an initial balance. But sometimes it's more useful to have a local network that simulates the state of the mainnet. This is what forking is for.
+Hardhat网络默认是空的，除了一些有初始余额的账户。但有时，拥有一个模拟主网状态的本地网络会更有用，这就是主网forking的作用。
 
-To fork from the mainnet you need the URL of a node to connect to. For example, using Alchemy, you can start a local node that forks the mainnet with this command:
+要分叉主网，你需要连接一个URL连接到主网节点。例如，使用Alchemy，你可以用这个命令启动一个本地节点来分叉主网:
 
 ```
 npx hardhat node --fork https://eth-mainnet.alchemyapi.io/v2/<key>
 ```
 
-where you have to replace `<key>` with your Alchemy API key.
+必须用你自己的Alchemy API密钥替换命令中的`<key>`。
 
-After doing this, you can do anything in your node that you can do with a non-forked Hardhat Network: see console logs, get stack traces or use the default accounts to deploy new contracts.
+完成之后，你可以在你的节点中做任何在Hardhat网络中做的事情：查看控制台日志，获得堆栈跟踪或使用默认账户来部署新的合约。
 
-If you want this to be the default behavior, you can do it in your Hardhat config:
+如果你想让这成为默认行为，你可以通过修改Hardhat配置来做到这一点：
 
 ```js
 networks: {
@@ -147,25 +147,27 @@ networks: {
 }
 ```
 
-This means that if you execute a task that uses the Hardhat Network, that task will start a forked node and run on it.
+在此配置下，如果你执行一个使用Hardhat网络的任务，该任务将启动一个分叉的节点并在其上运行。
 
-There are other things you can do with a forked Hardhat Network, check [our guide](../guides/mainnet-forking.md) to learn more.
+你还可以用分叉的Hardhat网络做其他事情，请查看[指南](../guides/mainnet-forking.md)以了解更多。
 
-## Mining modes
 
-Hardhat supports two modes for mining transactions:
+## 挖矿模式
 
-- **Automine**: each transaction that is sent is automatically included in a new
-  block
-- **Interval mining**: a new block is periodically mined, which includes as many
-  pending transactions as possible
+Hardhat支持两种交易的挖矿模式：
 
-You can use one of these modes, both or neither. By default, only the automine
-mode is enabled.
 
-### Configuring mining modes
+- **Automine（自动）**: 发送的每笔交易都会自动包含在一个新的区块中。
+  
+- **Interval mining（间隔挖矿）**: 定期挖一个新区块，其中包括尽可能多的待处理交易。
 
-You can configure the mining behavior under your Hardhat Network settings:
+
+你可以使用其中的一种，也可以两种都用，或者两种都不用。在默认情况下，只有自动模式被启用。
+
+
+### 配置挖矿模式
+
+你可以在Hardhat网络设置下配置挖矿模式：
 
 ```js
 networks: {
@@ -178,9 +180,8 @@ networks: {
 }
 ```
 
-In this example, automining is disabled and interval mining is set so that a new
-block is generated every 5 seconds.  You can also configure interval mining to
-generate a new block after a random delay:
+在这个例子中，禁用了自动挖矿，间隔挖矿被设置为每5秒产生一个新的区块每。 你也可以将间隔挖矿配置为在随机延迟后生成一个新的区块：
+
 
 ```js
 networks: {
@@ -193,13 +194,13 @@ networks: {
 }
 ```
 
-In this case, a new block will be mined after a random delay of between 3 and 6
-seconds. For example, the first block could be mined after 4 seconds, the second
-block 5.5 seconds after that, and so on.
+在这种情况下，一个新的区块将在3至6秒的随机延迟后被开采出来。
+例如，第一个区块可能在4秒后被开采，第二个区块在5.5秒后被开采，以此类推。
 
-### Manual mining
 
-You can disable both mining modes like this:
+### 手动挖矿
+
+你可以这样禁用前两种挖矿模式：
 
 ```js
 networks: {
@@ -212,52 +213,47 @@ networks: {
 }
 ```
 
-This means that no new blocks will be mined by the Hardhat Network, but you can
-manually mine new blocks using the `evm_mine` RPC method. This will generate a
-new block that will include as many pending transactions as possible.
+这意味着Hardhat网络将不会开采新的区块，但你可以使用 `evm_mine` RPC 方法手动开采新区块。这将产生一个新区块，其中将包括尽可能多的待处理交易。
 
-### Mempool behavior
 
-When automine is disabled, every sent transaction is added to the mempool, that
-contains all the transactions that could be mined in the future. Hardhat
-Network's mempool follows the same rules as geth. This means, among other
-things, that:
+### Mempool 行为
 
-- Transactions with a higher gas price are included first
-- If two transactions can be included and both have the same gas price, the one
-  that was received first is included first
-- If a transaction is invalid (for example, its nonce is lower than the nonce
-of the address that sent it), the transaction is dropped.
+当automine（自动挖矿）被禁用时，每一个发送的交易都会被添加到mempool中，mempool中包含了所有未来可以开采的交易。
+Hardhat网络的mempool遵循与geth相同的规则，这意味着：
 
-You can get the list of pending transactions that will be included in the
-next block by using the "pending" block tag:
+- Gas价格较高的交易会排在前面（先执行）
+- 如果有两笔交易可以包括在内，而且两笔交易的Gas价格相同，那么先收到的那笔交易就先执行。
+- 如果一个交易是无效的（例如，它的nonce低于发送它的地址的nonce
+的nonce），则该交易被放弃。
+
+你可以通过使用 pending 区块标签来获得将包括在下一个区块中的待处理交易列表：
+
 
 ```js
 const pendingBlock = await network.provider.send("eth_getBlockByNumber", ["pending", false])
 ```
 
-### Configuring mining modes using RPC methods
+### 使用RPC方法配置挖矿模式
 
-You can change the mining behavior on runtime using two RPC methods:
-`evm_setAutomine` and `evm_setIntervalMining`. For example, to disable
-automining:
+你可以使用两个RPC方法（`evm_setAutomine` 和 `evm_setIntervalMining`）在运行时改变挖矿模式。
+例如，要禁用自动挖矿
 
 ```js
 await network.provider.send("evm_setAutomine", [false])
 ```
 
-And to enable interval mining:
+并启用间隔挖矿：
+
 
 ```js
 await network.provider.send("evm_setIntervalMining", [5000])
 ```
 
-## Logging
+## 日志
 
-Hardhat Network uses its tracing infrastructure to offer rich logging that will help
-you develop and debug smart contracts.
+Hardhat Network基于其跟踪基础设施提供丰富的日志记录，这将有助于开发和调试智能合约。
 
-For example, a successful transaction and a failed call would look like this:
+例如，一个成功的交易和一个失败的调用将看起来像这样：
 
 ```
 eth_sendTransaction
@@ -281,15 +277,16 @@ eth_call
       at process._tickCallback (internal/process/next_tick.js:68:7)
 ```
 
-This logging is enabled by default when using Hardhat Network's node (i.e. `npx hardhat node`), but disabled when using
-the in-process Hardhat Network provider. See [Hardhat Network's config](../config/README.md#hardhat-network) to learn more about how to control its logging.
+当使用Hardhat Network的节点（即`npx hardhat node`）时，默认启用日志功能，但当在进程中使用Hardhat Network提供者时，则禁用。
+参见 [Hardhat Network's config](../config/README.md#hardhat-network) 以了解更多关于如何控制日志记录。
 
-## Hardhat Network initial state
 
-Hardhat Network is initialized by default in this state:
+## Hardhat网络初始状态
 
-- A brand new blockchain, just with the genesis block.
-- 20 accounts with 10000 ETH each, generated with the mnemonic `"test test test test test test test test test test test junk"`. Their addresses are:
+Hardhat Network默认用此状态初始化：
+
+- 一个全新的区块链，只是有创世区块。
+- 220个账户，每个账户有10000个ETH，助记词为: `"test test test test test test test test test test test junk"`. 地址是:
   - `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266`
   - `0x70997970C51812dc3A010C7d01b50e0d17dc79C8`
   - `0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC`
@@ -311,11 +308,11 @@ Hardhat Network is initialized by default in this state:
   - `0xdD2FD4581271e230360230F9337D5c0430Bf44C0`
   - `0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199`
 
-To customise it, take a look at [the configuration section](/config/README.md#hardhat-network).
+若要定制，请看一下[配置部分](/config/README.md#hardhat-network)。
 
-## JSON-RPC methods support
+## JSON-RPC 支持的方法
 
-### Supported methods
+### 支持的方法
 
 - `eth_accounts`
 - `eth_blockNumber`
@@ -358,23 +355,23 @@ To customise it, take a look at [the configuration section](/config/README.md#ha
 - `web3_clientVersion`
 - `web3_sha3`
 
-#### Hardhat network methods
+#### Hardhat网络方法
 
-- `hardhat_addCompilationResult` – Add information about compiled contracts
-- `hardhat_impersonateAccount` – see the [Mainnet Forking guide](../guides/mainnet-forking.md)
-- `hardhat_stopImpersonatingAccount` – see the [Mainnet Forking guide](../guides/mainnet-forking.md)
-- `hardhat_reset` – see the [Mainnet Forking guide](../guides/mainnet-forking.md)
-- `hardhat_setLoggingEnabled` – Enable or disable logging in Hardhat Network
+- `hardhat_addCompilationResult` – 添加关于编译合约的信息
+- `hardhat_impersonateAccount` – 参考 [Mainnet Forking guide](../guides/mainnet-forking.md)
+- `hardhat_stopImpersonatingAccount` – 参考 [Mainnet Forking guide](../guides/mainnet-forking.md)
+- `hardhat_reset` – 参考 [Mainnet Forking guide](../guides/mainnet-forking.md)
+- `hardhat_setLoggingEnabled` – 启用或禁用Hardhat网络的日志记录
 
-#### Special testing/debugging methods
+#### 用于测试和 Debug 的方法
 
-- `evm_increaseTime` – same as Ganache.
-- `evm_mine` – same as Ganache
-- `evm_revert` – same as Ganache.
-- `evm_snapshot` – same as Ganache.
-- `evm_setNextBlockTimestamp` - this method works like `evm_increaseTime`, but takes the exact timestamp that you want in the next block, and increases the time accordingly.
+- `evm_increaseTime` – 和 Ganache 里一样，增加区块时间。
+- `evm_mine` – 和 Ganache 里一样，出块。
+- `evm_revert` – 和 Ganache 里一样。
+- `evm_snapshot` – 和 Ganache 里一样，快照区块。
+- `evm_setNextBlockTimestamp` - 类似 `evm_increaseTime`, 但是在下一个区块里使用准确的时间戳出块。
 
-### Unsupported methods
+### 不支持的方法
 
 - `eth_compileLLL`
 - `eth_compileSerpent`
@@ -392,19 +389,18 @@ To customise it, take a look at [the configuration section](/config/README.md#ha
 - `eth_submitHashrate`
 - `eth_submitWork`
 
-## Limitations
+## 限制
 
-### Supported Solidity versions
+### 支持的 Solidity 版本
 
-Hardhat Network can run any smart contract, but it only understands Solidity 0.5.1 and newer.
+Hardhat Network可以运行任何智能合约，但它只理解Solidity 0.5.1和更新的版本。
 
-If you are compiling with an older version of Solidity, or using another language, you can use Hardhat Network, but
-Solidity stack traces won't be generated.
+如果你用旧版本的 Solidity 编译，或使用其他语言，你可以使用 Hardhat Network，但Solidity 堆栈跟踪将不会生效。
 
-### Solidity optimizer support
 
-Hardhat Network can work with smart contracts compiled with optimizations,
-but this may lead to your stack traces' line numbers being a little off.
+### Solidity 优化器支持
 
-We recommend compiling without optimizations when testing and debugging
-your contracts.
+Hardhat Network可以与经过编译优化的智能合约一起工作。
+但这可能会导致堆栈跟踪的行数有些偏差。
+
+我们建议在测试和调试合约时，在没有优化的情况下编译合约。
