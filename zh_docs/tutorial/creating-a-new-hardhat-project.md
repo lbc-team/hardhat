@@ -7,7 +7,7 @@
 ```
 mkdir hardhat-tutorial 
 cd hardhat-tutorial 
-npm init --yes 
+npm init
 npm install --save-dev hardhat 
 ```
 
@@ -35,7 +35,7 @@ $ npx hardhat
 888    888 888  888 888    Y88b 888 888  888 888  888 Y88b.
 888    888 "Y888888 888     "Y88888 888  888 "Y888888  "Y888
 
-Welcome to Hardhat v2.0.0
+Welcome to Hardhat v2.9.9
 
 ? What do you want to do? …
   Create a sample project
@@ -61,23 +61,20 @@ Welcome to Hardhat v2.0.0
 
 **Hardhat** 不限制选择哪种工具，但是它确实内置了一些插件，所有这些也都可以覆盖。 大多数时候，使用给定工具的方法是将其集成到**Hardhat**中作为插件。
 
-在本教程中，我们将使用Ethers.js和Waffle插件。 通过他们与以太坊进行交互并测试合约。 稍后将解释它们的用法。 要安装它们，请在项目目录中运行：
+在本教程中，我们将使用插件`@nomicfoundation/hardhat-toolbox`。 通过他们与以太坊进行交互并测试合约。 稍后将解释它们的用法。 要安装它们，请在项目目录中运行：
 
 ```
-npm install --save-dev @nomiclabs/hardhat-ethers ethers @nomiclabs/hardhat-waffle ethereum-waffle chai
+npm install --save-dev @nomicfoundation/hardhat-toolbox
 ```
 
-将高亮行`require("@nomiclabs/hardhat-waffle");` 添加到你的`hardhat.config.js`中，如下所示：
+将高亮行`require("@nomicfoundation/hardhat-toolbox");` 添加到你的`hardhat.config.js`中，如下所示：
 
 ```js {1}
-require("@nomiclabs/hardhat-waffle");
+require("@nomicfoundation/hardhat-toolbox");
 
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
+/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.7.3",
+  solidity: "0.8.18",
 };
 ```
 
-这里引入`hardhat-waffle`，因为它依赖于`hardhat-ethers`，因此不需要同时添加两个。

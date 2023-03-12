@@ -1,8 +1,8 @@
 # Hardhat 前端模板
 
-如果要快速开始使用dApp或使用前端查看整个项目，可以使用我们的[hackathon模板库](https://github.com/nomiclabs/hardhat-hackathon-boilerplate)。
+如果要快速开始使用dApp或使用前端查看整个项目，可以使用我们的[hackathon模板库](https://github.com/NomicFoundation/hardhat-boilerplate)。
 
-代码：https://github.com/nomiclabs/hardhat-hackathon-boilerplate
+代码：https://github.com/NomicFoundation/hardhat-boilerplate
 
 ##  前端模板哪些内容有
 
@@ -57,7 +57,7 @@ npx hardhat --network localhost run scripts/deploy.js
 这会将合约部署到**Hardhat 网络**。 完成此运行后：
 
 ```
-cd hardhat-hackathon-boilerplate/frontend/
+cd frontend
 npm install
 npm run start
 ```

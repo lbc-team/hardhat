@@ -8,7 +8,7 @@ prev: false
 
 ## 安装 Node.js
 
-如果你已经安装了的 Node.js `> = 12.0`，则可以[跳到下一节](./creating-a-new-hardhat-project.md) 如果没有，请按照以下步骤在Ubuntu，MacOS和Windows上安装它。
+如果你已经安装了的 Node.js `> = 16.0`，则可以[跳到下一节](./creating-a-new-hardhat-project.md) 如果没有，请按照以下步骤在Ubuntu，MacOS和Windows上安装它。
 
 
 ### Linux
@@ -20,8 +20,8 @@ prev: false
 ```
 sudo apt update
 sudo apt install curl git
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt install nodejs
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
 ```
 
 ### MacOS
@@ -32,7 +32,7 @@ sudo apt install nodejs
 
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.35.2/install.sh | bash
-nvm install 12
+nvm install 18
 nvm use 12
 nvm alias default 12
 npm install npm --global # Upgrade npm to the latest version
@@ -48,7 +48,7 @@ npm install npm --global # Upgrade npm to the latest version
 
 ## 升级 Node.js
 
-如果你的 Node.js 版本低于  `12.0` ,  则需要通过以下指引升级。
+如果你的 Node.js 版本低于  `16.0` ,  则需要通过以下指引升级。
 
 ### Linux
 
@@ -60,12 +60,12 @@ npm install npm --global # Upgrade npm to the latest version
 
 ### MacOS
 
-你可以使用 [nvm](http://github.com/creationix/nvm) 切换版本. 为了升级到 Node.js `12.x` 可运行一下命令：
+你可以使用 [nvm](http://github.com/creationix/nvm) 切换版本. 为了升级到 Node.js `18.x` 可运行一下命令：
 
 ```
-nvm install 12
-nvm use 12
-nvm alias default 12
+nvm install 18
+nvm use 18
+nvm alias default 18
 npm install npm --global # 升级 npm 到最新版本
 ```
 

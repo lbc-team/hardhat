@@ -1,7 +1,8 @@
 # 7. 部署到真实网络
+
 准备好与其他人分享dApp后，你可能要做的就是将其部署到真实的以太坊网络中。 这样，其他人可以访问不在本地系统上运行的实例。
 
-具有真实价值的以太坊网络被称为“主网”，然后还有一些不具有真实价值但能够很好地模拟主网的网络，它可以被其他人共享阶段的环境。 这些被称为“测试网”，以太坊有多个测试网：*Ropsten*，*Kovan*，*Rinkeby*和*Goerli*。 我们建议你将合约部署到*Ropsten*测试网。
+具有真实价值的以太坊网络被称为“主网”，然后还有一些不具有真实价值但能够很好地模拟主网的网络，它可以被其他人共享阶段的环境。 这些被称为“测试网”，以太坊有多个[测试网]((https://decert.me/tutorial/solidity/ethereum/evm_network#%E5%8C%BA%E5%9D%97%E9%93%BE%E7%BD%91%E7%BB%9C))， 例如_Goerli_ 和 _Sepolia_。 我们建议你将合约部署到 _Goerli_ 测试网。
 
 在应用软件层，部署到测试网与部署到主网相同。 唯一的区别是你连接到哪个网络。 让我们研究一下使用ethers.js部署合约的代码是什么样的。
 
@@ -52,47 +53,50 @@ Token address: 0x5FbDB2315678afecb367f032d93F642f64180aa3
 
 ## 部署到远程网络
 
-要部署到诸如主网或任何测试网之类的线上网络，你需要在`hardhat.config.js` 文件中添加一个`network`条目。 在此示例中，我们将使用Ropsten，但你可以类似地添加其他网络：
+要部署到诸如主网或任何测试网之类的线上网络，你需要在`hardhat.config.js` 文件中添加一个`network`条目。 在此示例中，我们将使用Goerli，但你可以类似地添加其他网络：
 
 ```js{5,11,15-20}
-require("@nomiclabs/hardhat-waffle");
+require("@nomicfoundation/hardhat-toolbox");
 
 // Go to https://www.alchemyapi.io, sign up, create
 // a new App in its dashboard, and replace "KEY" with its key
 const ALCHEMY_API_KEY = "KEY";
 
-// Replace this private key with your Ropsten account private key
+// Replace this private key with your Goerli account private key
 // To export your private key from Metamask, open Metamask and
 // go to Account Details > Export Private Key
-// Be aware of NEVER putting real Ether into testing accounts
-const ROPSTEN_PRIVATE_KEY = "YOUR ROPSTEN PRIVATE KEY";
+// Beware: NEVER put real Ether into testing accounts
+const GOERLI_PRIVATE_KEY = "YOUR GOERLI PRIVATE KEY";
 
 module.exports = {
-  solidity: "0.7.3",
+  solidity: "0.8.9",
   networks: {
-    ropsten: {
-      url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-      accounts: [`0x${ROPSTEN_PRIVATE_KEY}`]
+    goerli: {
+      url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+      accounts: [GOERLI_PRIVATE_KEY]
     }
   }
 };
-```
 
-我们使用了 [Alchemy](https://alchemyapi.io/?r=7d60e34c-b30a-4ffa-89d4-3c4efea4e14b), 但是你将url指向其他任何以太坊节点或网关都是可以。请填入你自己的 `ALCHEMY_API_KEY` 。
+我们使用了 [Alchemy](https://www.alchemy.com/?r=7d60e34c-b30a-4ffa-89d4-3c4efea4e14b) , 但是你将url指向其他任何以太坊节点或网关都是可以。请填入你自己的 `ALCHEMY_API_KEY` 。
 
-要在Ropsten上进行部署，你需要将ropsten-ETH发送到将要进行部署的地址中。 你可以从水龙头（免费分发测试使用的ETH服务）获得一些用于测试网的ETH。 [这是Ropsten的一个水龙头](https://faucet.metamask.io/)，你必须在进行交易之前将Metamask的网络更改为Ropsten。
+要在 Goerli 上进行部署，你需要将Goerli-ETH发送到将要进行部署的地址中。 你可以从水龙头（免费分发测试使用的ETH服务）获得一些用于测试网的ETH。 这是Goerli的一个水龙头:
+
+- [Alchemy Goerli Faucet](https://goerlifaucet.com/)
+
+你必须在进行交易之前将Metamask的网络更改为Goerli。
 
 ::: tip
-你可以通过以下链接为其他测试网获取一些ETH
+你可以通过以下链接为其他测试网获取一些ETH.
 
-* [Kovan faucet](https://faucet.kovan.network/)
-* [Rinkeby faucet](https://faucet.rinkeby.io/)
-* [Goerli faucet](https://goerli-faucet.slock.it/)
+[ethereum.org 测试网](https://ethereum.org/en/developers/docs/networks/#ethereum-testnets)
+
+
 :::
 
 最后运行：
 ```
-npx hardhat run scripts/deploy.js --network ropsten
+npx hardhat run scripts/deploy.js --network goerli
 ```
 
 如果一切顺利，你应该看到已部署的合约地址。
