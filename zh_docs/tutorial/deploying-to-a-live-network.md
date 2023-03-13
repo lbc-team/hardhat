@@ -78,6 +78,8 @@ module.exports = {
   }
 };
 
+```
+
 我们使用了 [Alchemy](https://www.alchemy.com/?r=7d60e34c-b30a-4ffa-89d4-3c4efea4e14b) , 但是你将url指向其他任何以太坊节点或网关都是可以。请填入你自己的 `ALCHEMY_API_KEY` 。
 
 要在 Goerli 上进行部署，你需要将Goerli-ETH发送到将要进行部署的地址中。 你可以从水龙头（免费分发测试使用的ETH服务）获得一些用于测试网的ETH。 这是Goerli的一个水龙头:

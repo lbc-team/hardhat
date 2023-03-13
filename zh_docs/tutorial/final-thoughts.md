@@ -7,7 +7,7 @@
 - [Hardhat模板工程](https://github.com/NomicFoundation/hardhat-boilerplate)
 - [Hardhat 文档](https://learnblockchain.cn/docs/hardhat/getting-started/)
 - [Hardhat Toolbox's 文档](/hardhat-runner/plugins/nomicfoundation-hardhat-toolbox)
-- [Ethers.js 文档](https://docs.ethers.io/ethers.js/html/) 及 [ethers.js文档中文版](https://learnblockchain.cn/ethers_v5)
+- [Ethers.js 文档](https://docs.ethers.org/v5/) 及 [ethers.js文档中文版](https://learnblockchain.cn/ethers_v5)
 - [Waffle 文档](https://getwaffle.io/)
 - [Mocha 文档](https://mochajs.org/)
 - [Chai 文档](https://www.chaijs.com/)
