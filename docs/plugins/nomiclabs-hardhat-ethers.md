@@ -7,49 +7,48 @@ editLink: false
 
 # hardhat-ethers
 
-[Hardhat](https://hardhat.org) plugin for integration with [ethers.js](https://github.com/ethers-io/ethers.js/).
+用于与 [ethers.js](https://github.com/ethers-io/ethers.js/) 集成的 [Hardhat](https://hardhat.org) 插件。 
 
-## What
+## 是什么
+这个插件使 Hardhat 可以使用以太坊库 `ethers.js`，它允许您以简单的方式与以太坊区块链进行交互。
 
-This plugin brings to Hardhat the Ethereum library `ethers.js`, which allows you to interact with the Ethereum blockchain in a simple way.
-
-## Installation
+## 安装
 
 ```bash
 npm install --save-dev @nomiclabs/hardhat-ethers 'ethers@^5.0.0'
 ```
 
-And add the following statement to your `hardhat.config.js`:
+并将以下语句添加到您的`hardhat.config.js`:
 
 ```js
 require("@nomiclabs/hardhat-ethers");
 ```
 
-Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
+如果您使用的是 TypeScript，添加以下语句到您的 `hardhat.config.ts`:
 
 ```js
 import "@nomiclabs/hardhat-ethers";
 ```
 
-## Tasks
+## 任务
 
-This plugin creates no additional tasks.
+这个插件不会创建额外的任务。
 
-## Environment extensions
+## 环境扩展
 
-This plugins adds an `ethers` object to the Hardhat Runtime Environment.
+此插件将一个 ethers 对象添加到 Hardhat 运行时环境。
 
-This object has the same API than `ethers.js`, with some extra Hardhat-specific
-functionality.
+此对象与  ethers.js 具有相同的 API，并具有一些额外的特定于 Hardhat 的功能。
 
-### Provider object
 
-A `provider` field is added to `ethers`, which is an `ethers.providers.Provider`
-automatically connected to the selected network.
+### Provider对象
+
+一个 provider 字段被添加到 ethers，这是一个自动连接到选定的网络的 ethers.providers.Provider
+
 
 ### Helpers
 
-These helpers are added to the `ethers` object:
+这些 helpers 被添加到`ethers` 对象:
 
 ```typescript
 interface Libraries {
@@ -75,20 +74,21 @@ function getSigners() => Promise<ethers.Signer[]>;
 function getSigner(address: string) => Promise<ethers.Signer>;
 ```
 
-The `Contract`s and `ContractFactory`s returned by these helpers are connected to the first signer returned by `getSigners` by default.
+默认情况下，这些 helpers 返回的`Contracts`和`ContractFactorys`连接到`getSigners`返回的第一个 signer。
 
-If there is no signer available, `getContractAt` returns read-only contracts.
+如果没有找到 signer，`getContractAt` 将返回只读的（read-only） `contracts`。
 
-## Usage
+## 用法
 
-There are no additional steps you need to take for this plugin to work.
+您不需要采取任何其他步骤即可使此插件正常工作。
 
-Install it and access ethers through the Hardhat Runtime Environment anywhere you need it (tasks, scripts, tests, etc). For example, in your `hardhat.config.js`:
+在您需要的任何地方（任务、脚本、测试等）安装它并通过Hardhat运行时环境访问 ethers。
 
+例如，在您的`hardhat.config.js`中：
 ```js
 require("@nomiclabs/hardhat-ethers");
 
-// task action function receives the Hardhat Runtime Environment as second argument
+// 任务操作函数接收 Hardhat 运行时环境作为第二个参数
 task(
   "blockNumber",
   "Prints the current block number",
@@ -102,13 +102,12 @@ task(
 module.exports = {};
 ```
 
-And then run `npx hardhat blockNumber` to try it.
+然后运行 `npx hardhat blockNumber` 进行尝试。
 
-Read the documentation on the [Hardhat Runtime Environment](https://hardhat.org/advanced/hardhat-runtime-environment.html) to learn how to access the HRE in different ways to use ethers.js from anywhere the HRE is accessible.
+阅读关于 [Hardhat Runtime Environment](https://hardhat.org/advanced/hardhat-runtime-environment.html) 的文档，了解如何以不同的方式访问 HRE，以便在任何可以访问 HRE 的地方使用ethers.js。
+### 库连接
 
-### Library linking
-
-Some contracts need to be linked with libraries before they are deployed. You can pass the addresses of their libraries to the `getContractFactory` function with an object like this:
+有些 `contracts` 在部署之前需要与库连接。您可以使用如下对象将其库的地址传递给 `getContractFactory` 函数：
 
 ```js
 const contractFactory = await this.env.ethers.getContractFactory(
@@ -120,7 +119,18 @@ const contractFactory = await this.env.ethers.getContractFactory(
   }
 );
 ```
+这允许您为 `Example` 合约创建一个合约工厂，并将其 `ExampleLib` 库引用连接到地址 `“0x…”`。
 
-This allows you to create a contract factory for the `Example` contract and link its `ExampleLib` library references to the address `"0x..."`.
+若要创建合约工厂，必须连接所有库。将抛出一个错误，通知您任何丢失的库。
 
-To create a contract factory, all libraries must be linked. An error will be thrown informing you of any missing library.
+### 故障排除
+
+#### 事件未发出
+
+Ethers.js 轮询网络来检查是否发出了某些事件（使用 WebSocketProvider 时除外；见下文）。 此轮询每 4 秒进行一次。 如果您的脚本或测试未发出事件，则很可能在轮询机制检测到事件之前执行已完成。
+
+如果您使用 `WebSocketProvider` 连接到 Hardhat 节点，则应立即发出事件。 但请记住，您必须手动创建此提供程序，因为 Hardhat 仅支持通过 http 配置网络。 也就是说，您不能添加具有 ws://127.0.0.1:8545 等 URL 的本地主机网络。
+
+#### 未使用 hardhat.config 中的 Gas 交易参数
+
+使用此插件时，hardhat.config 中的 `gas`、`gasPrice` 和 `gasMultiplier` 参数不会自动应用于交易。 为了向您的交易提供此类值，请将它们指定为交易本身的重写。
